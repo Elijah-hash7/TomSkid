@@ -1,0 +1,21 @@
+{
+  "carriers": [],
+  "plans": [
+    {
+      "id": "61610c65-f65d-4049-a03c-8f75adf7636d",
+      "created_at": "2026-04-06T16:13:56.616Z",
+      "is_active": true,
+      "archived_at": null,
+      "carrier_id": "ee7550d0-b4bf-4979-9da3-535aafbd9e12",
+      "name": "5gb Monthly",
+      "data_label": "5gb",
+      "validity_days": 30,
+      "price_cents": 1900,
+      "currency": "USD",
+      "features": null,
+      "badge": null,
+      "is_featured": true
+    }
+  ],
+  "orders": []
+}
