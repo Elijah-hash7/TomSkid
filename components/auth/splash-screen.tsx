@@ -3,46 +3,34 @@
 import { useEffect, useState } from "react"
 
 export function SplashScreen({ onFinish }: { onFinish: () => void }) {
-  const [isExiting, setIsExiting] = useState(false)
+  const [phase, setPhase] = useState<"entering" | "entered" | "exiting">("entering")
 
   useEffect(() => {
-    // Show splash for 2 seconds then start exit animation
-    const timer = setTimeout(() => {
-      setIsExiting(true)
-    }, 2000)
+    const enterTimer = setTimeout(() => {
+      setPhase("entered")
+    }, 60)
 
-    // After fade out (500ms), finish
     const exitTimer = setTimeout(() => {
-      if (onFinish) onFinish()
-    }, 2500)
+      setPhase("exiting")
+    }, 2100)
+
+    const finishTimer = setTimeout(() => {
+      onFinish()
+    }, 2850)
 
     return () => {
-      clearTimeout(timer)
+      clearTimeout(enterTimer)
       clearTimeout(exitTimer)
+      clearTimeout(finishTimer)
     }
   }, [onFinish])
 
   return (
-    <div className={`splash-container ${isExiting ? "exit" : ""}`}>
+    <div className={`splash-container ${phase}`}>
       <style>{`
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes spinIn {
-          from { opacity: 0; transform: scale(0.5) rotate(-15deg); }
-          to   { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-
         @keyframes dotPulse {
           0%, 100% { opacity: 0.3; transform: scale(0.75); }
           50%       { opacity: 1;   transform: scale(1); }
-        }
-
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to   { opacity: 0; visibility: hidden; }
         }
 
         .splash-container {
@@ -58,16 +46,61 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
           justify-content: center;
           font-family: var(--font-inter), sans-serif;
           overflow: hidden;
-          transition: opacity 0.5s ease-in-out;
+          pointer-events: none;
+          opacity: 0;
+          transform: scale(1.02);
+          transition:
+            opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+            transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
+            filter 720ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .splash-container.exit {
-          animation: fadeOut 0.5s ease-in-out forwards;
+        .splash-container::before {
+          content: "";
+          position: absolute;
+          inset: -15%;
+          background: radial-gradient(circle at top, rgba(255,255,255,0.18), transparent 40%);
+          opacity: 0.8;
+          transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .splash-icon  { animation: spinIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both 0.1s; }
-        .splash-title { animation: fadeUp 0.7s ease both 0.35s; }
-        .splash-dots  { animation: fadeUp 0.7s ease both 0.55s; }
+        .splash-container.entered,
+        .splash-container.entering {
+          opacity: 1;
+          transform: scale(1);
+          filter: blur(0px);
+        }
+
+        .splash-container.exiting {
+          opacity: 0;
+          transform: scale(1.015);
+          filter: blur(10px);
+        }
+
+        .splash-content {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transform: translateY(18px) scale(0.98);
+          opacity: 0;
+          transition:
+            opacity 680ms cubic-bezier(0.22, 1, 0.36, 1),
+            transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .splash-container.entered .splash-content,
+        .splash-container.entering .splash-content {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .splash-container.exiting .splash-content {
+          opacity: 0;
+          transform: translateY(-10px) scale(0.985);
+        }
 
         .dot1 { animation: dotPulse 1.4s ease-in-out infinite 0s; }
         .dot2 { animation: dotPulse 1.4s ease-in-out infinite 0.2s; }
@@ -135,21 +168,20 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
         }
       `}</style>
 
-      {/* TE initials badge */}
-      <div className="splash-icon icon-wrap">
-        <span className="initials">TE</span>
-      </div>
+      <div className="splash-content">
+        <div className="splash-icon icon-wrap">
+          <span className="initials">TE</span>
+        </div>
 
-      {/* Brand name */}
-      <h1 className="splash-title title">
-        TOMSKID <span className="title-accent">eSIM</span>
-      </h1>
+        <h1 className="splash-title title">
+          TOMSKID <span className="title-accent">eSIM</span>
+        </h1>
 
-      {/* Loading dots */}
-      <div className="splash-dots dots-row">
-        <span className="dot1 dot" />
-        <span className="dot2 dot" />
-        <span className="dot3 dot" />
+        <div className="splash-dots dots-row">
+          <span className="dot1 dot" />
+          <span className="dot2 dot" />
+          <span className="dot3 dot" />
+        </div>
       </div>
     </div>
   )
