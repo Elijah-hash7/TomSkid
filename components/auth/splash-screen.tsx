@@ -74,36 +74,36 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
         .dot3 { animation: dotPulse 1.4s ease-in-out infinite 0.4s; }
 
         .icon-wrap {
-          width: 110px;
-          height: 84px;
+          width: 80px;
+          height: 62px;
           background: rgba(255,255,255,0.12);
-          border-radius: 28px;
+          border-radius: 20px;
           border: 1.5px solid rgba(255,255,255,0.2);
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 28px;
+          margin-bottom: 20px;
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
         }
 
 .initials {
   font-family: 'Clash Display', sans-serif;
-  font-size: 42px;
+  font-size: 29px;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.08em;
-  padding-left: 0.08em;
+  letter-spacing: 0.02em;
+  padding-left: 0.02em;
   line-height: 1;
 }
 
 .title {
   font-family: 'Clash Display', sans-serif;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.15em;
-  margin-bottom: 38px;
+  letter-spacing: 0.06em;
+  margin-bottom: 32px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -111,11 +111,11 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
 .title-accent {
   display: inline-block;
   font-family: var(--font-inter), sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.05em;
   color: rgba(255,255,255,0.5);
-  margin-left: 4px;
+  margin-left: 2px;
   position: relative;
   top: -2px;
 }

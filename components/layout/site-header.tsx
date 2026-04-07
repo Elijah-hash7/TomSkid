@@ -12,6 +12,8 @@ const links = [
   { href: "/profile", label: "Profile", icon: UserRound },
 ] as const
 
+import { ChatDrawer } from "@/components/layout/chat-drawer"
+
 export function SiteHeader() {
   const pathname = usePathname()
   return (
@@ -23,35 +25,39 @@ export function SiteHeader() {
           style={{
             fontFamily: "'Clash Display', sans-serif",
             fontWeight: 700,
-            letterSpacing: '0.15em',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase'
           }}
         >
           TOMSKID
         </Link>
-        <nav className="flex items-center gap-1" aria-label="Main">
-          {links.map(({ href, label, icon: Icon }) => {
-            const active =
-              href === "/"
-                ? pathname === "/"
-                : pathname === href || pathname.startsWith(`${href}/`)
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
-              >
-                <Icon className="size-4 opacity-80" aria-hidden />
-                {label}
-              </Link>
-            )
-          })}
-        </nav>
+        <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-1" aria-label="Main">
+            {links.map(({ href, label, icon: Icon }) => {
+              const active =
+                href === "/"
+                  ? pathname === "/"
+                  : pathname === href || pathname.startsWith(`${href}/`)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    active
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  <Icon className="size-4 opacity-80" aria-hidden />
+                  {label}
+                </Link>
+              )
+            })}
+          </nav>
+          <div className="h-6 w-px bg-border/60" />
+          <ChatDrawer />
+        </div>
       </div>
     </header>
   )
