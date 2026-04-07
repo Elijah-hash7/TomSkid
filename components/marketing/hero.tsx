@@ -10,22 +10,23 @@ export function Hero({
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.10),transparent_60%)] pointer-events-none" />
 
       <div className="relative mx-auto w-full md:max-w-lg">
-        <div className="flex items-center gap-2">
-          <div className="flex h-9 w-12 items-center justify-center rounded-[0.85rem] border border-white/20 bg-gradient-to-b from-white/26 via-white/16 to-white/[0.05] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_18px_rgba(8,102,214,0.22)] backdrop-blur-sm">
-            <span className="text-[1.05rem] text-white" style={{
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-7 w-9 items-center justify-center rounded-[0.65rem] border border-white/20 bg-gradient-to-b from-white/26 via-white/16 to-white/[0.05] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_18px_rgba(8,102,214,0.22)] backdrop-blur-sm">
+            <span className="text-[0.8rem] text-white" style={{
               fontFamily: "'Clash Display', sans-serif",
               fontWeight: 700,
-              letterSpacing: '-0.02em'
+              letterSpacing: '-0.05em'
             }}>
               TE
             </span>
           </div>
           <div className="min-w-0">
-            <p className="flex items-baseline gap-1.5 text-white leading-none">
+            <p className="flex items-baseline gap-1 text-white leading-none">
               <span className="text-[1.1rem] text-white" style={{
                 fontFamily: "'Clash Display', sans-serif",
                 fontWeight: 700,
-                letterSpacing: '0.15em',
+                fontSize: '0.82rem',
+                letterSpacing: '0.03em',
                 textTransform: 'uppercase'
               }}>
                 TOMSKID
@@ -33,7 +34,8 @@ export function Hero({
               <span className="text-[0.75rem] text-white" style={{
                 fontFamily: "var(--font-inter), sans-serif",
                 fontWeight: 500,
-                letterSpacing: '0.12em',
+                fontSize: '0.56rem',
+                letterSpacing: '0.02em',
                 opacity: 0.5
               }}>
                 eSIM
