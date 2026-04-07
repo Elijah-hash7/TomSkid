@@ -78,6 +78,7 @@ export function ChatDrawer() {
       </SheetTrigger>
       <SheetContent
         side="bottom"
+        showCloseButton={false}
         className="h-[80vh] flex flex-col p-0 sm:max-w-none rounded-t-[2rem] border-t border-border/50 bg-background/95 backdrop-blur-xl overflow-hidden"
       >
         <SheetHeader className="border-b border-border/50 px-6 py-4 flex-row items-center justify-between space-y-0">

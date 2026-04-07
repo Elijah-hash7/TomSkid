@@ -261,11 +261,28 @@ function pickFeaturedPlans(plans: PlanWithCarrier[], limit: number) {
 }
 
 function pickFeaturedCarriers(carriers: CarrierRow[], limit: number) {
-  if (carriers.length <= limit) return carriers
+  if (carriers.length <= 1) return carriers.slice(0, limit)
 
-  // Shuffle array and pick first 'limit' items
   const shuffled = [...carriers].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, limit)
+  const seenNames = new Set<string>()
+  const uniqueCarriers: CarrierRow[] = []
+
+  for (const carrier of shuffled) {
+    const displayName = shortCarrierName(carrier.name).toLowerCase()
+
+    if (seenNames.has(displayName)) {
+      continue
+    }
+
+    seenNames.add(displayName)
+    uniqueCarriers.push(carrier)
+
+    if (uniqueCarriers.length === limit) {
+      break
+    }
+  }
+
+  return uniqueCarriers
 }
 
 function shortCarrierName(name: string) {
