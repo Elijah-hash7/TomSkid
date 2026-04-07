@@ -18,8 +18,8 @@ export default async function CarrierPage({
 
   return (
     <div className="flex flex-col">
-      <header className="rounded-b-[2rem] md:rounded-none bg-primary px-5 md:px-10 lg:px-14 pb-10 pt-8 text-primary-foreground">
-        <div className="mx-auto max-w-lg md:max-w-none space-y-4">
+      <header className="rounded-b-[2rem] bg-primary px-5 pb-10 pt-8 text-primary-foreground">
+        <div className="mx-auto max-w-lg space-y-4">
           <Button
             variant="ghost"
             className="gap-2 text-primary-foreground/90 hover:bg-white/10 hover:text-primary-foreground"
@@ -57,14 +57,14 @@ export default async function CarrierPage({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-lg md:max-w-none space-y-6 px-5 md:px-10 lg:px-14 py-10">
+      <div className="mx-auto w-full max-w-lg space-y-6 px-5 py-10">
         <h2 className="text-lg font-semibold">Plans</h2>
         {plans.length === 0 ? (
           <p className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-8 text-center text-sm text-muted-foreground">
             No plans for this carrier yet.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4">
             {plans.map((p) => (
               <PlanCard key={p.id} plan={p} />
             ))}

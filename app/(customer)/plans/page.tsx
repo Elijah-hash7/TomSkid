@@ -18,30 +18,30 @@ export default async function PlansPage({
 
   return (
     <div className="flex flex-col">
-      <header className="rounded-b-[3rem] md:rounded-none bg-gradient-to-b from-[#0A84FF] to-[#0066CC] px-5 md:px-10 lg:px-14 pb-10 pt-10 text-white shadow-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
-        <div className="relative md:flex md:items-end md:justify-between md:gap-8 max-w-none">
+      <header className="relative overflow-hidden rounded-b-[3rem] bg-gradient-to-b from-[#1A8FFF] via-[#0A84FF] to-[#0060CC] px-5 pb-10 pt-10 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08),transparent_60%)] pointer-events-none" />
+        <div className="relative space-y-4">
           <div className="space-y-1">
             <h1 className="text-[2rem] font-bold tracking-tight leading-tight">
               Browse plans
             </h1>
-            <p className="text-white/70 text-sm font-medium">
+            <p className="text-sm text-white/70">
               Filter by carrier. Every price includes manual activation support.
             </p>
           </div>
-          <div className="hidden md:flex items-center gap-2 mt-2 md:mt-0">
-            <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-white/20 bg-white/[0.10] px-3 py-1 text-[11px] font-medium text-white/85">
               🇺🇸 US Coverage
             </span>
-            <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm">
+            <span className="rounded-full border border-white/20 bg-white/[0.10] px-3 py-1 text-[11px] font-medium text-white/85">
               5G / LTE
             </span>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-lg md:max-w-none flex-1 space-y-10 px-5 md:px-10 lg:px-14 py-12">
-        <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="mx-auto w-full max-w-lg flex-1 space-y-8 px-5 py-8">
+        <div className="flex gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <FilterPill
             href="/plans"
             active={!carrierId}
@@ -62,7 +62,7 @@ export default async function PlansPage({
             No plans for this filter yet.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6">
             {plans.map((p) => (
               <PlanCard key={p.id} plan={p} />
             ))}
@@ -87,10 +87,10 @@ function FilterPill({
     <Link
       href={href}
       className={cn(
-        "shrink-0 rounded-2xl border px-5 py-2.5 text-sm font-bold transition-all duration-300",
+        "shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-150",
         active
-          ? "border-primary bg-primary text-white shadow-[0_4px_12px_rgba(10,132,255,0.25)] scale-105"
-          : "border-border/60 bg-card text-muted-foreground/80 hover:border-primary/40 hover:text-foreground hover:bg-accent/50"
+          ? "border-primary/30 bg-primary/[0.08] text-primary"
+          : "border-border/60 bg-card text-foreground/55 hover:text-foreground/80 hover:bg-accent/60 hover:border-border"
       )}
     >
 

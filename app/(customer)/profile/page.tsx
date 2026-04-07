@@ -25,33 +25,33 @@ export default async function ProfilePage() {
 
   return (
     <div className="flex flex-col">
-      <header className="overflow-hidden rounded-b-[2.25rem] md:rounded-none bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_40%),linear-gradient(135deg,#0a84ff,#1d4ed8)] px-5 md:px-10 lg:px-14 pb-12 pt-10 text-primary-foreground">
-        <div className="mx-auto max-w-lg md:max-w-none">
-          <div className="flex items-center gap-4 md:gap-6">
+      <header className="overflow-hidden rounded-b-[2.25rem] bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_50%),linear-gradient(160deg,#1A8FFF,#0a84ff,#0060CC)] px-5 pb-12 pt-10 text-primary-foreground">
+        <div className="mx-auto max-w-lg">
+          <div className="flex items-center gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={createPortraitDataUri(email)}
               alt={displayName}
-              className="size-20 md:size-24 rounded-[1.75rem] border border-white/20 bg-white/10 object-cover shadow-[0_20px_40px_rgba(15,23,42,0.22)]"
+              className="size-20 rounded-[1.75rem] border border-white/20 bg-white/10 object-cover shadow-[0_12px_28px_rgba(15,23,42,0.18)]"
             />
             <div className="min-w-0">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90">
-                <Sparkles className="size-3.5" />
-                Account hub
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/[0.12] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80">
+                <Sparkles className="size-3" />
+                Account
               </div>
-              <h1 className="mt-3 truncate text-2xl md:text-3xl font-semibold">{displayName}</h1>
-              <p className="mt-1 truncate text-sm text-primary-foreground/85">{email}</p>
+              <h1 className="mt-2 truncate text-2xl font-semibold leading-tight">{displayName}</h1>
+              <p className="mt-0.5 truncate text-sm text-primary-foreground/75">{email}</p>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-lg md:max-w-none flex-1 px-5 md:px-10 lg:px-14 py-10">
-        <div className="md:grid md:grid-cols-[1fr_1fr] md:gap-12 space-y-8 md:space-y-0">
+      <div className="mx-auto w-full max-w-lg flex-1 px-5 py-10">
+        <div className="space-y-8">
 
           {/* Left column */}
           <section className="space-y-3">
-            <p className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
               Quick Links
             </p>
             <ProfileLink
@@ -82,7 +82,7 @@ export default async function ProfilePage() {
           {/* Right column */}
           <div className="space-y-6">
             <div>
-              <p className="hidden md:block text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-4">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
                 Settings
               </p>
               <ProfileSettingsForm
@@ -119,17 +119,17 @@ function ProfileLink({
   external?: boolean
 }) {
   const className =
-    "flex items-center gap-4 rounded-2xl border border-border/80 bg-card p-4 shadow-sm ring-1 ring-border/40 transition-colors hover:bg-muted/50"
+    "flex items-center gap-3.5 rounded-2xl border-0 bg-card p-4 shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-150 hover:shadow-[var(--shadow-premium)] hover:-translate-y-0.5"
   const content = (
     <>
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted/80">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-muted/60">
         {icon}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="font-medium leading-tight">{title}</p>
-        <p className="truncate text-sm text-muted-foreground">{subtitle}</p>
+        <p className="text-sm font-medium leading-tight">{title}</p>
+        <p className="truncate text-xs text-muted-foreground/75 mt-0.5">{subtitle}</p>
       </div>
-      <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+      <ChevronRight className="size-4 shrink-0 text-muted-foreground/40" aria-hidden />
     </>
   )
 

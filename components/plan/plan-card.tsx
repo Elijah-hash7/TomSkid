@@ -33,54 +33,52 @@ export function PlanCard({
   return (
     <Card
       className={cn(
-        "group overflow-hidden rounded-3xl border border-border/50 bg-card shadow-[var(--shadow-premium)] transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
-        emphasize && "ring-2 ring-primary/20",
+        "group overflow-hidden rounded-2xl border-0 bg-card shadow-[var(--shadow-premium)] ring-1 ring-border/50 transition-all duration-200 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5",
+        emphasize && "ring-primary/25 shadow-[0_4px_6px_rgba(10,132,255,0.06),0_16px_40px_rgba(10,132,255,0.10)]",
         className
       )}
     >
-
-      <CardHeader className="gap-3 pb-2">
+      <CardHeader className="gap-3 pb-2 pt-5">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-0.5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">
+            <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/55">
               {plan.carrier.name}
             </p>
-            <h3 className="text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            <h3 className="text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
               {plan.name}
             </h3>
           </div>
-          <div className="text-right">
-            <p className="text-2xl font-black tabular-nums tracking-tighter text-primary">
+          <div className="text-right shrink-0">
+            <p className="text-2xl font-bold tabular-nums tracking-tight text-primary">
               {formatMoney(plan.price_cents, plan.currency)}
             </p>
-            <p className="text-[10px] font-medium text-muted-foreground/70">
-              {plan.data_label} · {plan.validity_days} days
+            <p className="text-[10px] font-medium text-muted-foreground/60">
+              {plan.data_label} · {plan.validity_days}d
             </p>
           </div>
-
         </div>
         {plan.badge ? (
-          <Badge variant="secondary" className="w-fit font-normal">
+          <Badge variant="secondary" className="w-fit text-[11px] font-medium">
             {plan.badge}
           </Badge>
         ) : null}
       </CardHeader>
-      <CardContent className="pb-3 pt-0">
-        <ul className="flex flex-wrap gap-2">
+      <CardContent className="pb-4 pt-0">
+        <ul className="flex flex-wrap gap-1.5">
           {features.slice(0, 4).map((f) => (
             <li
               key={f}
-              className="rounded-full bg-muted/80 px-2.5 py-0.5 text-xs text-muted-foreground"
+              className="rounded-full bg-muted/60 px-2.5 py-0.5 text-[11px] text-muted-foreground/70"
             >
               {f}
             </li>
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="border-t border-border/40 bg-muted/10 p-4">
-        <Button 
-          className="w-full rounded-[1.25rem] bg-gradient-to-r from-[#0A84FF] to-[#0070EE] font-bold shadow-md shadow-primary/10 transition-all hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98]" 
-          size="lg" 
+      <CardFooter className="border-t border-border/40 bg-muted/[0.06] p-4">
+        <Button
+          className="w-full rounded-xl bg-gradient-to-r from-[#0A84FF] to-[#0070EE] font-semibold shadow-[0_2px_8px_rgba(10,132,255,0.20)] transition-all hover:shadow-[0_4px_14px_rgba(10,132,255,0.30)] active:scale-[0.98]"
+          size="lg"
           asChild
         >
           <Link href={target}>

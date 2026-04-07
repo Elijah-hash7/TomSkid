@@ -32,26 +32,26 @@ export function AdminShell({
   return (
     <div className="min-h-dvh bg-muted/30 md:flex">
       {/* ── Desktop sidebar ── */}
-      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 z-40 border-r border-border/60 bg-card/98 backdrop-blur-xl">
-        <div className="flex flex-1 flex-col gap-6 px-4 py-7">
+      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 z-40 border-r border-border/50 bg-card">
+        <div className="flex flex-1 flex-col gap-5 px-3 py-6">
           {/* Branding */}
-          <div className="flex items-center gap-3 px-2">
-            <div className="flex size-10 items-center justify-center rounded-[1.1rem] bg-gradient-to-br from-[#0A84FF] to-[#0060CC] text-white shadow-[0_8px_20px_rgba(10,132,255,0.32)]">
-              <ShieldCheck className="size-5" />
+          <div className="flex items-center gap-3 px-3 py-1">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#0A84FF] to-[#0060CC] text-white shadow-[0_4px_12px_rgba(10,132,255,0.30)]">
+              <ShieldCheck className="size-4 stroke-[2px]" />
             </div>
             <div>
-              <p className="text-[0.7rem] font-bold uppercase tracking-[0.22em] text-primary/80 leading-none">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary/70 leading-none">
                 Tomskid
               </p>
-              <p className="mt-0.5 text-xs font-semibold text-foreground">
+              <p className="mt-0.5 text-sm font-bold text-foreground leading-none">
                 Admin
               </p>
             </div>
           </div>
 
           {/* Nav */}
-          <nav className="flex-1 space-y-0.5">
-            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
+          <nav className="flex-1 space-y-0.5 px-1">
+            <p className="mb-3 px-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/50">
               Workspace
             </p>
             {nav.map(({ href, label, icon: Icon }) => {
@@ -64,15 +64,15 @@ export function AdminShell({
                   key={href}
                   href={href}
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm font-medium transition-all",
+                    "flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-150",
                     active
-                      ? "bg-primary text-primary-foreground shadow-[0_8px_20px_rgba(10,132,255,0.25)]"
-                      : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                      ? "bg-primary/[0.08] text-primary"
+                      : "text-foreground/50 hover:text-foreground/80 hover:bg-accent/70"
                   )}
                 >
                   <span className="relative flex shrink-0 items-center">
                     <Icon
-                      className={cn("size-4", active && "stroke-[2.2px]")}
+                      className={cn("size-4", active ? "stroke-[2px]" : "stroke-[1.6px]")}
                       aria-hidden
                     />
                     {href === "/admin/orders" && pendingOrdersCount > 0 ? (
@@ -88,13 +88,13 @@ export function AdminShell({
           </nav>
 
           {/* Bottom */}
-          <div className="border-t border-border/60 pt-4 space-y-1">
+          <div className="border-t border-border/50 pt-4 px-1 space-y-1">
             {demoMode ? (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              <div className="rounded-xl border border-amber-200/80 bg-amber-50/80 px-3 py-2 text-xs text-amber-800">
                 Demo mode on — no changes saved.
               </div>
             ) : null}
-            <p className="px-4 pt-2 text-[11px] text-muted-foreground/40">
+            <p className="px-2 pt-2 text-[11px] text-muted-foreground/35">
               Manual fulfillment workspace
             </p>
           </div>
@@ -119,12 +119,12 @@ export function AdminShell({
         </div>
 
         {/* Desktop page header */}
-        <div className="hidden md:block border-b border-border/60 bg-card/60 backdrop-blur-sm px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <ShieldCheck className="size-4 text-primary" />
-            <span>Manual fulfillment workspace</span>
+        <div className="hidden md:block border-b border-border/40 bg-card/80 px-8 py-3">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground/70">
+            <ShieldCheck className="size-3.5 text-primary/70" />
+            <span className="font-medium">Manual fulfillment workspace</span>
             {demoMode && (
-              <span className="ml-3 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+              <span className="ml-3 rounded-full border border-amber-200/80 bg-amber-50/80 px-2.5 py-0.5 text-xs font-medium text-amber-700">
                 Demo mode
               </span>
             )}

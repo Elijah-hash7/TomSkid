@@ -12,48 +12,48 @@ export default async function AdminDashboardPage() {
   const { total, pending, delivered } = await getDashboardCounts()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-7">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
+        <h1 className="text-xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground/80">
           Manual fulfillment overview.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-3">
         <StatCard title="Total orders" value={total} />
         <StatCard title="Pending / processing" value={pending} accent />
         <StatCard title="Delivered" value={delivered} />
       </div>
 
-      <Card className="border-0 bg-card shadow-[0_12px_40px_rgba(15,23,42,0.06)] ring-1 ring-border/70">
-        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+      <Card className="border-0 bg-card shadow-[var(--shadow-premium)] ring-1 ring-border/50">
+        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3 pt-5">
           <div className="space-y-1">
-            <CardTitle className="text-base font-medium">Queue status</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-sm font-semibold">Queue status</CardTitle>
+            <CardDescription className="text-xs">
               Orders waiting for IMEI review or delivery proof upload.
             </CardDescription>
           </div>
-          <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-            <Package className="size-5" />
+          <div className="flex size-9 items-center justify-center rounded-xl bg-primary/[0.08] text-primary">
+            <Package className="size-4" />
           </div>
         </CardHeader>
-        <CardContent className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-border/70 bg-muted/40 p-4">
-            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <Clock3 className="size-4 text-primary" />
+        <CardContent className="grid gap-3 sm:grid-cols-2 pb-5">
+          <div className="rounded-xl border border-border/50 bg-muted/30 p-4">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <Clock3 className="size-3.5 text-primary/70" />
               Active queue
             </div>
-            <p className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
+            <p className="mt-3 text-4xl font-bold tracking-tight text-foreground">
               {pending}
             </p>
           </div>
-          <div className="rounded-2xl border border-border/70 bg-muted/30 p-4">
-            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <ShieldCheck className="size-4 text-primary" />
+          <div className="rounded-xl border border-border/50 bg-muted/20 p-4">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <ShieldCheck className="size-3.5 text-primary/70" />
               Fulfillment flow
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground/80">
               New orders surface in the Orders section automatically so the team
               can jump straight into review.
             </p>
@@ -75,15 +75,15 @@ function StatCard({
 }) {
   return (
     <Card
-      className={`border-0 shadow-sm ring-1 ring-border/70 ${accent ? "ring-2 ring-primary/15" : ""}`}
+      className={`border-0 shadow-[var(--shadow-card)] ring-1 ${accent ? "ring-primary/20 bg-primary/[0.02]" : "ring-border/50"}`}
     >
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+      <CardHeader className="pb-1 pt-5">
+        <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70">
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-3xl font-semibold tabular-nums tracking-tight">
+      <CardContent className="pb-5">
+        <p className={`text-4xl font-bold tabular-nums tracking-tight ${accent ? "text-primary" : "text-foreground"}`}>
           {value}
         </p>
       </CardContent>

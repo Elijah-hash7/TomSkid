@@ -40,16 +40,16 @@ export default async function OrdersPage({
 
   return (
     <div className="flex flex-col">
-      <header className="border-b border-border/60 bg-muted/20 px-5 md:px-10 lg:px-14 py-8">
-        <div className="mx-auto max-w-lg md:max-w-none">
+      <header className="border-b border-border/50 bg-card/70 px-5 py-8">
+        <div className="mx-auto max-w-lg">
           <BackButton label="Back" />
           <h1 className="mt-3 text-2xl font-semibold tracking-tight">Orders</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-muted-foreground/80">
             Status updates appear here as we process your request.
           </p>
         </div>
       </header>
-      <div className="mx-auto w-full max-w-lg md:max-w-none flex-1 space-y-4 px-5 md:px-10 lg:px-14 py-8">
+      <div className="mx-auto w-full max-w-lg flex-1 space-y-4 px-5 py-8">
         <div className="flex flex-wrap gap-2">
           {FILTERS.map((filter) => {
             const href =
@@ -61,10 +61,10 @@ export default async function OrdersPage({
                 key={filter.value}
                 href={href}
                 className={[
-                  "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-150",
                   active
-                    ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_rgba(10,132,255,0.18)]"
-                    : "border-border bg-white text-foreground hover:bg-muted/60",
+                    ? "border-primary/30 bg-primary/[0.08] text-primary"
+                    : "border-border/70 bg-card text-foreground/60 hover:text-foreground hover:border-border hover:bg-accent/60",
                 ].join(" ")}
               >
                 {filter.label}
@@ -84,10 +84,10 @@ export default async function OrdersPage({
             </Link>
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4">
           {filteredOrders.map((o) => (
             <Link key={o.id} href={`/orders/${o.id}`} className="block">
-              <Card className="border-0 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.05)] ring-1 ring-border/70 transition-shadow hover:shadow-md">
+              <Card className="border-0 shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-150 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5">
                 <CardContent className="flex items-center gap-4 p-4">
                   <div className="min-w-0 flex-1 space-y-1">
                     <p className="truncate font-medium leading-tight">

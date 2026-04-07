@@ -33,8 +33,8 @@ export default async function OrderDetailPage({
 
   return (
     <div className="flex flex-col">
-      <header className="border-b border-border/60 bg-muted/20 px-5 md:px-10 lg:px-14 py-6">
-        <div className="mx-auto max-w-lg md:max-w-none">
+      <header className="border-b border-border/50 bg-card/70 px-5 py-6">
+        <div className="mx-auto max-w-lg">
           <BackButton label="Back" />
           <h1 className="mt-2 text-2xl font-semibold tracking-tight">
             Order detail
@@ -42,10 +42,10 @@ export default async function OrderDetailPage({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-lg md:max-w-3xl flex-1 space-y-6 px-5 md:px-10 lg:px-14 py-8">
-        <Card className="border-0 shadow-sm ring-1 ring-border/70">
+      <div className="mx-auto w-full max-w-lg flex-1 space-y-6 px-5 py-8">
+        <Card className="border-0 shadow-[var(--shadow-card)] ring-1 ring-border/50">
           <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-2">
-            <CardTitle className="text-lg">
+            <CardTitle className="text-base font-semibold">
               {order.plan.carrier.name} · {order.plan.name}
             </CardTitle>
             <OrderStatusBadge status={order.status} />
@@ -68,9 +68,9 @@ export default async function OrderDetailPage({
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-sm ring-1 ring-border/70">
+        <Card className="border-0 shadow-[var(--shadow-card)] ring-1 ring-border/50">
           <CardHeader>
-            <CardTitle className="text-base">Submitted details</CardTitle>
+            <CardTitle className="text-sm font-semibold">Submitted details</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 text-sm">
             <DetailRow label="Full name" value={order.full_name} />
@@ -83,7 +83,7 @@ export default async function OrderDetailPage({
         </Card>
 
         {proofUrl ? (
-          <Card className="border-0 shadow-sm ring-1 ring-border/70">
+          <Card className="border-0 shadow-[var(--shadow-card)] ring-1 ring-border/50">
             <CardHeader>
               <CardTitle className="text-base">Delivery confirmation</CardTitle>
             </CardHeader>

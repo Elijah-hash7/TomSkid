@@ -16,10 +16,10 @@ export function BottomNav() {
   const pathname = usePathname()
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/80 bg-card/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md md:hidden"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-border/80 bg-card/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md md:bottom-6 md:rounded-b-[2rem] md:border md:border-border/70 md:border-t"
       aria-label="Primary"
     >
-      <div className="mx-auto flex max-w-lg items-stretch justify-around gap-1">
+      <div className="mx-auto flex items-stretch justify-around gap-1">
         {items.map(({ href, label, icon: Icon }) => {
           const active =
             href === "/"

@@ -74,8 +74,8 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
         .dot3 { animation: dotPulse 1.4s ease-in-out infinite 0.4s; }
 
         .icon-wrap {
-          width: 100px;
-          height: 100px;
+          width: 120px;
+          height: 94px;
           background: rgba(255,255,255,0.12);
           border-radius: 32px;
           border: 1.5px solid rgba(255,255,255,0.2);
@@ -89,21 +89,22 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
 
         .initials {
           font-family: var(--font-syne), sans-serif;
-          font-size: 42px;
-          font-weight: 800;
+          font-size: 48px;
+          font-weight: 900;
           color: #ffffff;
-          letter-spacing: -0.03em;
+          letter-spacing: -0.04em;
           line-height: 1;
         }
 
         .title {
           font-family: var(--font-syne), sans-serif;
-          font-size: 26px;
-          font-weight: 800;
+          font-size: 32px;
+          font-weight: 900;
           color: #ffffff;
-          letter-spacing: -0.02em;
+          letter-spacing: 0.05em;
           margin-bottom: 34px;
           text-align: center;
+          text-transform: uppercase;
         }
 
         .title-accent {

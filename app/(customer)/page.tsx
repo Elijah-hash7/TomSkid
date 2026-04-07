@@ -27,18 +27,16 @@ export default async function HomePage() {
     <div className="flex flex-col">
       <Hero stats={homeStats} />
 
-      <div className="mx-auto w-full max-w-lg px-5 py-12 md:max-w-none md:px-10 lg:px-14">
-
-        {/* Desktop: 2-column layout — Carriers left, Plans right */}
-        <div className="md:grid md:grid-cols-[1fr_1.2fr] md:gap-12 space-y-16 md:space-y-0">
+      <div className="mx-auto w-full max-w-lg px-5 py-10">
+        <div className="space-y-16">
 
           <section className="space-y-6">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">
+                <h2 className="text-base font-semibold tracking-tight text-foreground font-heading">
                   Popular Carriers
                 </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-0.5 text-sm text-muted-foreground/80">
                   Choose your network, then pick your perfect plan.
                 </p>
               </div>
@@ -65,7 +63,7 @@ export default async function HomePage() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-3 gap-4">
                 {featuredCarriers.map((carrier, index) => (
                   <CarrierShowcaseCard
                     key={carrier.id}
@@ -81,13 +79,19 @@ export default async function HomePage() {
           <section className="space-y-6">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">
-                  All Plans
+                <h2 className="text-base font-semibold tracking-tight text-foreground font-heading">
+                  Featured Plans
                 </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Transparent pricing with all carrier details included.
+                <p className="mt-0.5 text-sm text-muted-foreground/80">
+                  Hand-picked plans with the best value across carriers.
                 </p>
               </div>
+              <Button variant="ghost" className="shrink-0 gap-1 px-0 text-primary hover:text-primary/80" asChild>
+                <Link href="/plans">
+                  Browse all
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
             </div>
 
             {plans.length === 0 ? (
@@ -106,7 +110,7 @@ export default async function HomePage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {plans.slice(0, 8).map((plan, index) => (
+                {pickFeaturedPlans(plans, 4).map((plan, index) => (
                   <PlanRow key={plan.id} plan={plan} index={index} />
                 ))}
               </div>
@@ -131,7 +135,7 @@ function CarrierShowcaseCard({
   return (
     <Link
       href={`/carriers/${carrier.slug}`}
-      className="group block rounded-3xl border border-border/50 bg-card p-4 text-center shadow-[var(--shadow-premium)] transition-all hover:shadow-lg hover:-translate-y-1"
+      className="group block rounded-2xl border-0 bg-card p-4 text-center shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-200 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5"
     >
 
       <div className="flex justify-center">
@@ -150,10 +154,10 @@ function CarrierShowcaseCard({
             </div>
           )}
         </div>
-      <p className="mt-4 truncate font-semibold text-foreground font-heading">
+      <p className="mt-3.5 truncate text-sm font-semibold text-foreground font-heading">
         {shortCarrierName(carrier.name)}
       </p>
-      <p className="mt-1 text-sm text-muted-foreground">
+      <p className="mt-0.5 text-xs text-muted-foreground/75">
         {price == null ? "Starting soon" : `From $${price}`}
       </p>
     </Link>
@@ -170,7 +174,7 @@ function PlanRow({
   return (
     <Link
       href={`/order?planId=${plan.id}`}
-      className="group flex items-center justify-between gap-4 rounded-[1.25rem] border border-border/50 bg-card p-4 shadow-[var(--shadow-premium)] transition-all hover:shadow-lg hover:-translate-y-0.5"
+      className="group flex items-center justify-between gap-4 rounded-2xl border-0 bg-card p-4 shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-150 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5"
     >
 
       <div className="flex min-w-0 items-center gap-4">
@@ -247,6 +251,13 @@ function carrierAccent(index: number) {
   ] as const
 
   return accents[index % accents.length]
+}
+
+function pickFeaturedPlans(plans: PlanWithCarrier[], limit: number) {
+  // Prioritise explicitly featured plans, then fill with remaining
+  const featured = plans.filter((p) => p.is_featured)
+  const rest = plans.filter((p) => !p.is_featured)
+  return [...featured, ...rest].slice(0, limit)
 }
 
 function pickFeaturedCarriers(carriers: CarrierRow[], limit: number) {
