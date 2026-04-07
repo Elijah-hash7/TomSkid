@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { MessageCircleMore, Send, User, Bot, X } from "lucide-react"
+import { Headset, Send, User, X } from "lucide-react"
 import { getBotResponse } from "@/lib/bot"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 
@@ -72,21 +73,17 @@ export function ChatDrawer() {
           aria-label="Open chat assistant"
           className="fixed right-4 top-4 z-50 flex size-11 items-center justify-center rounded-full border border-primary/20 bg-background/95 text-primary shadow-lg backdrop-blur-md transition-all hover:scale-110 hover:shadow-primary/20 active:scale-95"
         >
-          <MessageCircleMore className="size-5" />
-          <span className="absolute -right-1 -top-1 flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-primary text-[8px] font-bold text-white items-center justify-center">1</span>
-          </span>
+          <Headset className="size-5" />
         </button>
       </SheetTrigger>
       <SheetContent
         side="bottom"
-        className="h-[80dvh] p-0 sm:max-w-none rounded-t-[2rem] border-t border-border/50 bg-background/95 backdrop-blur-xl"
+        className="h-[80vh] flex flex-col p-0 sm:max-w-none rounded-t-[2rem] border-t border-border/50 bg-background/95 backdrop-blur-xl overflow-hidden"
       >
-        <SheetHeader className="border-b border-border/50 px-6 py-4">
+        <SheetHeader className="border-b border-border/50 px-6 py-4 flex-row items-center justify-between space-y-0">
           <div className="flex items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <Bot className="size-5" />
+              <Headset className="size-5" />
             </div>
             <div>
               <SheetTitle className="text-left font-bold tracking-tight">Tomskid Assistant</SheetTitle>
@@ -96,6 +93,12 @@ export function ChatDrawer() {
               </p>
             </div>
           </div>
+          <SheetClose asChild>
+            <Button variant="ghost" size="icon" className="rounded-full hover:bg-muted">
+              <X className="size-5" />
+              <span className="sr-only">Close</span>
+            </Button>
+          </SheetClose>
         </SheetHeader>
 
         <div 
@@ -116,7 +119,7 @@ export function ChatDrawer() {
                   ? "bg-muted border-border" 
                   : "bg-primary/10 border-primary/20 text-primary"
               )}>
-                {message.role === "user" ? <User className="size-4" /> : <Bot className="size-4" />}
+                {message.role === "user" ? <User className="size-4" /> : <Headset className="size-4" />}
               </div>
               <div className={cn(
                 "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-sm",
@@ -137,7 +140,7 @@ export function ChatDrawer() {
           {isTyping && (
             <div className="flex gap-3 animate-in fade-in duration-300">
               <div className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-primary/10 border-primary/20 text-primary">
-                <Bot className="size-4" />
+                <Headset className="size-4" />
               </div>
               <div className="bg-muted/50 border border-border/40 rounded-2xl rounded-tl-none px-4 py-2.5 shadow-sm">
                 <div className="flex gap-1">
