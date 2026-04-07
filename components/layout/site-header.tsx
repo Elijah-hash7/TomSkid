@@ -19,7 +19,13 @@ export function SiteHeader() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-8 px-6 lg:px-8">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight text-foreground"
+          className="text-sm font-semibold text-foreground"
+          style={{
+            fontFamily: "'Clash Display', sans-serif",
+            fontWeight: 700,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase'
+          }}
         >
           TOMSKID
         </Link>

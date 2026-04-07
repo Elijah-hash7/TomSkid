@@ -24,7 +24,7 @@ export default async function ProfilePage() {
   const latestOrder = orders[0]
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-full flex-col">
       <header className="overflow-hidden rounded-b-[2.25rem] bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.12),transparent_50%),linear-gradient(160deg,#1A8FFF,#0a84ff,#0060CC)] px-5 pb-12 pt-10 text-primary-foreground">
         <div className="mx-auto max-w-lg">
           <div className="flex items-center gap-4">
@@ -46,7 +46,7 @@ export default async function ProfilePage() {
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-lg flex-1 px-5 py-10">
+      <div className="mx-auto flex w-full max-w-lg flex-1 flex-col px-5 py-10">
         <div className="space-y-8">
 
           {/* Left column */}
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
           </section>
 
           {/* Right column */}
-          <div className="space-y-6">
+          <div className="flex flex-1 flex-col">
             <div>
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
                 Settings
@@ -91,12 +91,9 @@ export default async function ProfilePage() {
                 defaultSupportEmails={preferences.support_emails ?? false}
               />
             </div>
-            <div className="pt-2">
+            <div className="mt-auto pt-10">
               <SignOutButton label="Sign out" />
             </div>
-            <p className="text-center text-xs text-muted-foreground">
-              TOMSKID eSIM · v1.0.0
-            </p>
           </div>
 
         </div>

@@ -25,17 +25,31 @@ export function DesktopSidebar() {
     <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 z-40 border-r border-border/50 bg-card">
       <div className="flex flex-1 flex-col gap-5 px-3 py-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 px-3 py-1 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#0A84FF] to-[#0060CC] text-white shadow-[0_4px_12px_rgba(10,132,255,0.30)] transition-shadow group-hover:shadow-[0_6px_16px_rgba(10,132,255,0.40)]">
-            <span className="text-[0.9rem] font-black tracking-[-0.08em] font-heading">
+        <Link href="/" className="flex items-center gap-1 px-3 py-1 group">
+          <div className="flex h-9 w-7 items-center justify-center rounded-xl bg-gradient-to-br from-[#0A84FF] to-[#0060CC] text-white shadow-[0_4px_12px_rgba(10,132,255,0.30)] transition-shadow group-hover:shadow-[0_6px_16px_rgba(10,132,255,0.40)]">
+            <span className="text-[0.9rem] text-white" style={{
+              fontFamily: "'Clash Display', sans-serif",
+              fontWeight: 700,
+              letterSpacing: '-0.02em'
+            }}>
               Te
             </span>
           </div>
           <div>
-            <p className="text-sm font-bold tracking-tight font-heading text-foreground leading-none">
+            <p className="text-sm text-foreground leading-none" style={{
+              fontFamily: "'Clash Display', sans-serif",
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase'
+            }}>
               Tomskid
             </p>
-            <p className="mt-0.5 text-[11px] font-medium text-muted-foreground">
+            <p className="mt-0.5 text-[11px] text-muted-foreground" style={{
+              fontFamily: "var(--font-inter), sans-serif",
+              fontWeight: 500,
+              letterSpacing: '0.12em',
+              opacity: 0.5
+            }}>
               eSIM Portal
             </p>
           </div>
@@ -84,7 +98,12 @@ export function DesktopSidebar() {
             WhatsApp Support
           </a>
           <p className="px-3 pt-3 text-[11px] text-muted-foreground/35">
-            TOMSKID eSIM · v1.0.0
+            TOMSKID <span style={{
+              fontFamily: "var(--font-inter), sans-serif",
+              fontWeight: 500,
+              letterSpacing: '0.12em',
+              opacity: 0.5
+            }}>eSIM</span> · v1.0.0
           </p>
         </div>
       </div>

@@ -56,7 +56,7 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          font-family: var(--font-dm-sans), sans-serif;
+          font-family: var(--font-inter), sans-serif;
           overflow: hidden;
           transition: opacity 0.5s ease-in-out;
         }
@@ -74,61 +74,70 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
         .dot3 { animation: dotPulse 1.4s ease-in-out infinite 0.4s; }
 
         .icon-wrap {
-          width: 120px;
-          height: 94px;
+          width: 110px;
+          height: 84px;
           background: rgba(255,255,255,0.12);
-          border-radius: 32px;
+          border-radius: 28px;
           border: 1.5px solid rgba(255,255,255,0.2);
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 24px;
+          margin-bottom: 28px;
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
         }
 
-        .initials {
-          font-family: var(--font-syne), sans-serif;
-          font-size: 48px;
-          font-weight: 900;
-          color: #ffffff;
-          letter-spacing: -0.04em;
-          line-height: 1;
-        }
+.initials {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  padding-left: 0.08em;
+  line-height: 1;
+}
 
-        .title {
-          font-family: var(--font-syne), sans-serif;
-          font-size: 32px;
-          font-weight: 900;
-          color: #ffffff;
-          letter-spacing: 0.05em;
-          margin-bottom: 34px;
-          text-align: center;
-          text-transform: uppercase;
-        }
+.title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.15em;
+  margin-bottom: 38px;
+  text-align: center;
+  text-transform: uppercase;
+}
 
-        .title-accent {
-          color: rgba(255,255,255,0.6);
-        }
+.title-accent {
+  display: inline-block;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.5);
+  margin-left: 4px;
+  position: relative;
+  top: -2px;
+}
 
         .dots-row {
           display: flex;
-          gap: 10px;
+          gap: 12px;
           align-items: center;
         }
 
         .dot {
           display: inline-block;
-          width: 8px;
-          height: 8px;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.9);
+          background: rgba(255,255,255,0.85);
         }
       `}</style>
 
       {/* TE initials badge */}
       <div className="splash-icon icon-wrap">
-        <span className="initials">Te</span>
+        <span className="initials">TE</span>
       </div>
 
       {/* Brand name */}

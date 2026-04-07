@@ -47,7 +47,7 @@ export async function signUp(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/auth/callback?next=/profile`,
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/auth/callback?next=/`,
     },
   })
 
@@ -72,7 +72,7 @@ export async function signUp(formData: FormData) {
     // Ensure a profile row exists (DB trigger should handle this, but be safe).
     console.log('[auth/signUp] session returned — email confirmation disabled')
     await ensureProfile(supabase, data.user.id, email)
-    redirect('/profile')
+    redirect('/')
   }
 
   // Email confirmation is ENABLED — the user must verify before signing in.
@@ -146,7 +146,7 @@ export async function signIn(formData: FormData) {
     profile = created
   }
 
-  const destination = next ?? (profile?.role === 'admin' ? '/admin/dashboard' : '/profile')
+  const destination = next ?? (profile?.role === 'admin' ? '/admin/dashboard' : '/')
   console.log('[auth/signIn] redirecting to', destination)
   redirect(destination)
 }
@@ -159,7 +159,7 @@ export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/auth/callback?next=/profile`,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/auth/callback?next=/`,
     },
   })
 

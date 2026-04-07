@@ -27,13 +27,13 @@ export default async function HomePage() {
     <div className="flex flex-col">
       <Hero stats={homeStats} />
 
-      <div className="mx-auto w-full max-w-lg px-5 py-10">
+      <div className="mx-auto w-full px-3 py-8 md:max-w-lg md:px-5 md:py-10">
         <div className="space-y-16">
 
           <section className="space-y-6">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-base font-semibold tracking-tight text-foreground font-heading">
+                <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">
                   Popular Carriers
                 </h2>
                 <p className="mt-0.5 text-sm text-muted-foreground/80">
@@ -79,7 +79,7 @@ export default async function HomePage() {
           <section className="space-y-6">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-base font-semibold tracking-tight text-foreground font-heading">
+                <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">
                   Featured Plans
                 </h2>
                 <p className="mt-0.5 text-sm text-muted-foreground/80">

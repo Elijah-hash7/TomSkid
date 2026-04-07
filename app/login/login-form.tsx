@@ -40,7 +40,7 @@ function SubmitButton() {
 
 export function LoginForm() {
   const searchParams = useSearchParams()
-  const next = searchParams.get("next") ?? "/profile"
+  const next = searchParams.get("next") ?? "/"
   const err = searchParams.get("error")
   const message = searchParams.get("message")
   const [email, setEmail] = useState("")
