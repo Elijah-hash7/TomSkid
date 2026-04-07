@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { updateSession } from "@/lib/supabase/middleware"
 
-const PUBLIC_PATHS = new Set(["/login", "/signup", "/auth/callback"])
+const PUBLIC_PATHS = new Set(["/login", "/signup", "/auth/callback", "/forgot-password", "/reset-password"])
 
 function isPublicPath(pathname: string) {
   if (PUBLIC_PATHS.has(pathname)) return true

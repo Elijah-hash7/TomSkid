@@ -184,3 +184,42 @@ export async function signOut() {
   cookieStore.delete('dev_admin_session')
   redirect('/login')
 }
+// ---------------------------------------------------------------------------
+// requestPasswordReset
+// ---------------------------------------------------------------------------
+export async function requestPasswordReset(formData: FormData) {
+  const supabase = await createClient()
+  const email = (formData.get('email') as string).trim().toLowerCase()
+
+  console.log('[auth/resetPassword] requesting reset for', email)
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/auth/callback?next=/reset-password`,
+  })
+
+  if (error) {
+    console.error('[auth/resetPassword] error', error.message)
+    redirect(`/forgot-password?error=${encodeURIComponent(error.message)}`)
+  }
+
+  redirect('/forgot-password?message=Check+your+email+for+the+reset+link!')
+}
+
+// ---------------------------------------------------------------------------
+// updatePassword
+// ---------------------------------------------------------------------------
+export async function updatePassword(formData: FormData) {
+  const supabase = await createClient()
+  const password = formData.get('password') as string
+
+  console.log('[auth/updatePassword] updating password')
+
+  const { error } = await supabase.auth.updateUser({ password })
+
+  if (error) {
+    console.error('[auth/updatePassword] error', error.message)
+    redirect(`/reset-password?error=${encodeURIComponent(error.message)}`)
+  }
+
+  redirect('/login?message=Password+updated+successfully.+Please+sign+in.')
+}
