@@ -4,27 +4,33 @@
  */
 export function getBotResponse(message: string): string {
   const msg = message.toLowerCase().trim();
+  const compactMsg = msg.replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+  const greetingOnlyPattern = /^(hi|hello|hey|yo|sup|what'?s up|good (morning|afternoon|evening))( there)?$/
 
-  if (msg.includes("hello") || msg.includes("hi") || msg.includes("cost") || msg.includes("price") || msg.includes("pricing")) {
+  if (greetingOnlyPattern.test(compactMsg)) {
+    return "Hi! I'm your friendly bot assistant. How can I help you today?";
+  }
+
+  if (msg.includes("cost") || msg.includes("price") || msg.includes("pricing")) {
     return "Our pricing depends on your plan. Would you like to view our pricing page?";
-  } 
-  
+  }
+
   if (msg.includes("thank you") || msg.includes("thanks") || msg.includes("goodbye") || msg.includes("bye")) {
     return "Goodbye👋🏽! Have a great day!";
-  } 
-  
+  }
+
   if (msg.includes("contact") || msg.includes("support") || msg.includes("help")) {
     return "You can contact us via WhatsApp or through our support email.";
-  } 
-  
+  }
+
   if (msg.includes("question")) {
     return "Sure, please go ahead and ask your question.";
-  } 
-  
+  }
+
   if (msg.includes("name") || msg.includes("who are you")) {
     return "I'm your friendly bot assistant 🤖.";
-  } 
-  
+  }
+
   if (msg.includes("compatible") || msg.includes("devices") || msg.includes("work on my phone")) {
     return "Most modern iPhones (XS and later) and Android devices support eSIM. Please check your device settings to confirm eSIM compatibility.";
   }

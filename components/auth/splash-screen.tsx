@@ -147,6 +147,7 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.05em;
+  text-transform: none;
   color: rgba(255,255,255,0.5);
   margin-left: 2px;
   position: relative;

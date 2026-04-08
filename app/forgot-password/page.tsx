@@ -4,7 +4,6 @@ import { ForgotPasswordForm } from "./forgot-password-form"
 export default function ForgotPasswordPage() {
   return (
     <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-background px-4 py-24">
-      {/* Background Decor */}
       <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
 
       <div className="relative w-full max-w-md">

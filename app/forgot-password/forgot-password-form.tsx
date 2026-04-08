@@ -1,11 +1,11 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { useFormStatus } from "react-dom"
+import { ArrowLeft, ArrowRight, Loader2, Mail } from "lucide-react"
+import { requestPasswordReset } from "@/app/actions/auth"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Card,
   CardContent,
@@ -13,11 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { requestPasswordReset } from "@/app/actions/auth"
-import { Loader2, Mail, ArrowRight, ArrowLeft } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 function SubmitButton() {
   const { pending } = useFormStatus()
+
   return (
     <Button
       type="submit"
@@ -67,7 +68,7 @@ export function ForgotPasswordForm() {
             {message}
           </div>
         )}
-        
+
         {!message ? (
           <form action={requestPasswordReset} className="space-y-5">
             <div className="space-y-2.5">
@@ -87,11 +88,14 @@ export function ForgotPasswordForm() {
                 />
               </div>
             </div>
-            
+
             <SubmitButton />
-            
+
             <div className="text-center text-sm">
-              <Link href="/login" className="inline-flex items-center font-medium text-muted-foreground hover:text-primary transition-colors">
+              <Link
+                href="/login"
+                className="inline-flex items-center font-medium text-muted-foreground transition-colors hover:text-primary"
+              >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to login
               </Link>
