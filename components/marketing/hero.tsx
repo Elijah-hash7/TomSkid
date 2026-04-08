@@ -1,3 +1,5 @@
+import { BrandLogo } from "@/components/branding/brand-logo"
+
 export function Hero({
   stats,
 }: {
@@ -8,38 +10,12 @@ export function Hero({
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.10),transparent_60%)] pointer-events-none" />
 
       <div className="relative mx-auto w-full max-w-[34rem]">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-10 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/20 bg-gradient-to-b from-white/26 via-white/16 to-white/[0.05] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_18px_rgba(8,102,214,0.22)] backdrop-blur-sm sm:h-9 sm:w-11">
-            <span className="text-[0.9rem] text-white sm:text-[0.95rem]" style={{
-              fontFamily: "'Clash Display', sans-serif",
-              fontWeight: 700,
-              letterSpacing: '-0.05em'
-            }}>
-              TE
-            </span>
+        <div className="origin-left">
+          <div className="sm:hidden">
+            <BrandLogo layout="row" iconWidth={47} iconHeight={44} titleSize={15} gap={8} />
           </div>
-          <div className="min-w-0">
-            <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-white leading-none">
-              <span className="text-white" style={{
-                fontFamily: "'Clash Display', sans-serif",
-                fontWeight: 700,
-                fontSize: '0.96rem',
-                letterSpacing: '0.045em',
-                textTransform: 'uppercase'
-              }}>
-                TOMSKID
-              </span>
-              <span className="text-white" style={{
-                fontFamily: "var(--font-inter), sans-serif",
-                fontWeight: 700,
-                fontSize: '0.82rem',
-                letterSpacing: '0.07em',
-                opacity: 0.86,
-                textTransform: 'none'
-              }}>
-                eSIM
-              </span>
-            </p>
+          <div className="hidden sm:block">
+            <BrandLogo layout="row" iconSize={52} titleSize={17} gap={12} />
           </div>
         </div>
 
