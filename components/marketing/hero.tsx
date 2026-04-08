@@ -1,18 +1,16 @@
-import Link from "next/link"
-
 export function Hero({
   stats,
 }: {
   stats?: { total: number; pending: number; delivered: number } | null
 }) {
   return (
-    <section className="relative overflow-hidden rounded-b-[3.5rem] bg-gradient-to-b from-[#1A8FFF] via-[#0A84FF] to-[#0060CC] px-3 pb-6 pt-4 text-white md:px-5">
+    <section className="relative overflow-hidden rounded-b-[2.6rem] bg-gradient-to-b from-[#1A8FFF] via-[#0A84FF] to-[#0060CC] px-4 pb-6 pt-4 text-white sm:rounded-b-[3.1rem] md:px-5">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.10),transparent_60%)] pointer-events-none" />
 
-      <div className="relative mx-auto w-full md:max-w-lg">
-        <div className="flex items-center gap-1.5">
-          <div className="flex h-7 w-9 items-center justify-center rounded-[0.65rem] border border-white/20 bg-gradient-to-b from-white/26 via-white/16 to-white/[0.05] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_18px_rgba(8,102,214,0.22)] backdrop-blur-sm">
-            <span className="text-[0.8rem] text-white" style={{
+      <div className="relative mx-auto w-full max-w-[34rem]">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-10 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/20 bg-gradient-to-b from-white/26 via-white/16 to-white/[0.05] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_18px_rgba(8,102,214,0.22)] backdrop-blur-sm sm:h-9 sm:w-11">
+            <span className="text-[0.9rem] text-white sm:text-[0.95rem]" style={{
               fontFamily: "'Clash Display', sans-serif",
               fontWeight: 700,
               letterSpacing: '-0.05em'
@@ -21,22 +19,23 @@ export function Hero({
             </span>
           </div>
           <div className="min-w-0">
-            <p className="flex items-baseline gap-1 text-white leading-none">
-              <span className="text-[1.1rem] text-white" style={{
+            <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-white leading-none">
+              <span className="text-white" style={{
                 fontFamily: "'Clash Display', sans-serif",
                 fontWeight: 700,
-                fontSize: '0.82rem',
-                letterSpacing: '0.03em',
+                fontSize: '0.96rem',
+                letterSpacing: '0.045em',
                 textTransform: 'uppercase'
               }}>
                 TOMSKID
               </span>
-              <span className="text-[0.75rem] text-white" style={{
+              <span className="text-white" style={{
                 fontFamily: "var(--font-inter), sans-serif",
-                fontWeight: 500,
-                fontSize: '0.56rem',
-                letterSpacing: '0.02em',
-                opacity: 0.5
+                fontWeight: 700,
+                fontSize: '0.82rem',
+                letterSpacing: '0.07em',
+                opacity: 0.86,
+                textTransform: 'none'
               }}>
                 eSIM
               </span>
@@ -44,17 +43,17 @@ export function Hero({
           </div>
         </div>
 
-        <div className="mt-6 space-y-5">
+        <div className="mt-6 space-y-5 sm:mt-7">
           <div className="space-y-4">
-            <div className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.10] px-3 py-1 text-[12px] font-semibold text-white/90">
+            <div className="inline-flex items-center rounded-full border border-white/20 bg-white/[0.10] px-3 py-1 text-[11px] font-semibold text-white/90 sm:text-[12px]">
               <span className="mr-2">🇺🇸</span>
               US eSIM Available
             </div>
             <div>
-              <h2 className="max-w-sm text-[1.75rem] font-bold tracking-tight leading-[1.1] font-heading">
+              <h2 className="max-w-sm text-[1.58rem] leading-[1.08] font-bold tracking-tight font-heading sm:text-[1.75rem]">
                 Premium eSIM plans for the US market.
               </h2>
-              <p className="mt-3 max-w-[20rem] text-[0.95rem] leading-relaxed text-white/75">
+              <p className="mt-3 max-w-[22rem] text-[0.92rem] leading-relaxed text-white/78 sm:text-[0.95rem]">
                 Pick your carrier, choose a plan, and get activated with personal support.
               </p>
             </div>

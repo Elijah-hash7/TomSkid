@@ -11,6 +11,21 @@ export function getBotResponse(message: string): string {
     return "Hi! I'm your friendly bot assistant. How can I help you today?";
   }
 
+  if (msg.includes("how are you")) {
+    return "I'm doing well, thank you for asking!";
+  }
+
+  if (msg.includes("what is tomskid")) {
+    return "Tomskid is a company that provides eSIMs to travelers.";
+  }
+
+  if (msg.includes("imei")) {
+    return "Your IMEI is a unique identifier for your device. You can find it by dialing *#06# on your phone.";
+  }
+
+  
+
+
   if (msg.includes("cost") || msg.includes("price") || msg.includes("pricing")) {
     return "Our pricing depends on your plan. Would you like to view our pricing page?";
   }
@@ -20,7 +35,7 @@ export function getBotResponse(message: string): string {
   }
 
   if (msg.includes("contact") || msg.includes("support") || msg.includes("help")) {
-    return "You can contact us via WhatsApp or through our support email.";
+    return "You can contact us via WhatsApp on +2349132560731";
   }
 
   if (msg.includes("question")) {

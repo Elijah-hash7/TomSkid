@@ -27,8 +27,8 @@ export default async function HomePage() {
     <div className="flex flex-col">
       <Hero stats={homeStats} />
 
-      <div className="mx-auto w-full px-3 py-8 md:max-w-lg md:px-5 md:py-10">
-        <div className="space-y-16">
+      <div className="mx-auto w-full max-w-[34rem] px-4 py-8 sm:px-5 md:py-10">
+        <div className="space-y-14 sm:space-y-16">
 
           <section className="space-y-6">
             <div className="flex items-end justify-between gap-4">
@@ -63,12 +63,11 @@ export default async function HomePage() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-4">
-                {featuredCarriers.map((carrier, index) => (
+              <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                {featuredCarriers.map((carrier) => (
                   <CarrierShowcaseCard
                     key={carrier.id}
                     carrier={carrier}
-                    index={index}
                     price={getStartingPrice(plans, carrier.id)}
                   />
                 ))}
@@ -110,8 +109,8 @@ export default async function HomePage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {pickFeaturedPlans(plans, 4).map((plan, index) => (
-                  <PlanRow key={plan.id} plan={plan} index={index} />
+                {pickFeaturedPlans(plans, 4).map((plan) => (
+                  <PlanRow key={plan.id} plan={plan} />
                 ))}
               </div>
             )}
@@ -125,17 +124,15 @@ export default async function HomePage() {
 
 function CarrierShowcaseCard({
   carrier,
-  index,
   price,
 }: {
   carrier: CarrierRow
-  index: number
   price: number | null
 }) {
   return (
     <Link
       href={`/carriers/${carrier.slug}`}
-      className="group block rounded-2xl border-0 bg-card p-4 text-center shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-200 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5"
+      className="group block rounded-2xl border-0 bg-card p-3.5 text-center shadow-[var(--shadow-card)] ring-1 ring-border/50 transition-all duration-200 hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5 sm:p-4"
     >
 
       <div className="flex justify-center">
@@ -144,17 +141,17 @@ function CarrierShowcaseCard({
             <img
               src={carrier.logo_url}
               alt={carrier.name}
-              className="size-14 rounded-xl object-contain"
+              className="size-[3.25rem] rounded-xl object-contain sm:size-14"
             />
           ) : (
-            <div className="flex size-14 items-center justify-center rounded-xl bg-gray-100">
-              <span className="text-lg font-bold font-heading text-gray-600">
+            <div className="flex size-[3.25rem] items-center justify-center rounded-xl bg-gray-100 sm:size-14">
+              <span className="text-base font-bold font-heading text-gray-600 sm:text-lg">
                 {carrierInitials(carrier.name)}
               </span>
             </div>
           )}
         </div>
-      <p className="mt-3.5 truncate text-sm font-semibold text-foreground font-heading">
+      <p className="mt-3 truncate text-sm font-semibold text-foreground font-heading">
         {shortCarrierName(carrier.name)}
       </p>
       <p className="mt-0.5 text-xs text-muted-foreground/75">
@@ -166,10 +163,8 @@ function CarrierShowcaseCard({
 
 function PlanRow({
   plan,
-  index,
 }: {
   plan: PlanWithCarrier
-  index: number
 }) {
   return (
     <Link
