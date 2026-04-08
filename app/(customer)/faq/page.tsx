@@ -10,7 +10,7 @@ export default function FaqPage() {
             Help & FAQ
           </h1>
           <p className="text-sm text-white/70">
-            Straight answers about ordering and eSIM on TOMSKID.
+            Straight answers about ordering an eSIM on TOMSKID.
           </p>
         </div>
       </header>
