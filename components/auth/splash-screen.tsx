@@ -1,149 +1,250 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, type CSSProperties } from "react"
 
-export function SplashScreen({ onFinish }: { onFinish: () => void }) {
-  const [phase, setPhase] = useState<"idle" | "backdrop-in" | "content-in" | "exiting">("idle")
+type SplashScreenProps = {
+  onFinish: () => void
+}
+
+const styles: Record<string, CSSProperties> = {
+  container: {
+    position: "fixed",
+    inset: 0,
+    zIndex: 9999,
+    width: "100%",
+    height: "100dvh",
+    minHeight: "100vh",
+    background: "#0A84FF",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "'DM Sans', sans-serif",
+    overflow: "hidden",
+  },
+
+  iconWrap: {
+    width: 90,
+    height: 90,
+    background: "rgba(255,255,255,0.15)",
+    borderRadius: 28,
+    border: "1.5px solid rgba(255,255,255,0.25)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 28,
+  },
+
+  initials: {
+    fontFamily: "'Syne', sans-serif",
+    fontSize: 36,
+    fontWeight: 800,
+    color: "#ffffff",
+    letterSpacing: "-0.03em",
+    lineHeight: 1,
+  },
+
+  title: {
+    fontFamily: "'Syne', sans-serif",
+    fontSize: 24,
+    fontWeight: 800,
+    color: "#ffffff",
+    letterSpacing: "-0.02em",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+
+  titleAccent: {
+    color: "rgba(255,255,255,0.6)",
+  },
+
+  tagline: {
+    fontSize: 13,
+    color: "#ffffff",
+    letterSpacing: "-0.01em",
+    marginBottom: 6,
+    textAlign: "center",
+  },
+
+  subTagline: {
+    fontSize: 11,
+    color: "rgba(255,255,255,0.65)",
+    letterSpacing: "0.04em",
+    marginBottom: 52,
+    textAlign: "center",
+  },
+
+  dotsRow: {
+    display: "flex",
+    gap: 9,
+    alignItems: "center",
+  },
+
+  dot: {
+    display: "inline-block",
+    width: 8,
+    height: 8,
+    borderRadius: "50%",
+    background: "rgba(255,255,255,0.9)",
+  },
+}
+
+export function SplashScreen({ onFinish }: SplashScreenProps) {
+  const [visible, setVisible] = useState(true)
+  const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
-    const backdropTimer = setTimeout(() => {
-      setPhase("backdrop-in")
-    }, 60)
-
-    const contentTimer = setTimeout(() => {
-      setPhase("content-in")
-    }, 320)
-
     const exitTimer = setTimeout(() => {
-      setPhase("exiting")
-    }, 2380)
+      setIsExiting(true)
+    }, 2900)
 
-    const finishTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
+      setVisible(false)
       onFinish()
-    }, 3140)
+    }, 3500)
 
     return () => {
-      clearTimeout(backdropTimer)
-      clearTimeout(contentTimer)
       clearTimeout(exitTimer)
-      clearTimeout(finishTimer)
+      clearTimeout(timer)
     }
   }, [onFinish])
 
+  if (!visible) return null
+
   return (
-    <div className={`splash-container ${phase}`}>
+    <div className={`splash-screen ${isExiting ? "is-exiting" : ""}`} style={styles.container}>
       <style>{`
-        @keyframes contentRise {
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400&display=swap');
+
+        @keyframes splashReveal {
           from {
             opacity: 0;
-            transform: translateY(24px) scale(0.96);
+            transform: scale(1.035);
+            filter: saturate(0.92);
           }
           to {
+            opacity: 1;
+            transform: scale(1);
+            filter: saturate(1);
+          }
+        }
+
+        @keyframes splashGlow {
+          0% {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes contentFloatIn {
+          0% {
+            opacity: 0;
+            transform: translateY(28px) scale(0.94);
+          }
+          100% {
             opacity: 1;
             transform: translateY(0) scale(1);
           }
         }
 
         @keyframes badgeIn {
-          from {
+          0% {
             opacity: 0;
-            transform: translateY(18px) scale(0.78) rotate(-8deg);
+            transform: translateY(18px) scale(0.72) rotate(-10deg);
           }
-          to {
+          65% {
+            transform: translateY(-2px) scale(1.04) rotate(1deg);
+          }
+          100% {
             opacity: 1;
             transform: translateY(0) scale(1) rotate(0deg);
           }
         }
 
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes dotPulse {
-          0%, 100% { opacity: 0.3; transform: scale(0.75); }
-          50%       { opacity: 1;   transform: scale(1); }
+          0%, 100% { opacity: 0.35; transform: scale(0.72); }
+          50% { opacity: 1; transform: scale(1); }
         }
 
-        .splash-container {
-          position: fixed;
+        @keyframes shimmerSweep {
+          0% {
+            opacity: 0;
+            transform: translateX(-140%) rotate(14deg);
+          }
+          30% {
+            opacity: 0.55;
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(180%) rotate(14deg);
+          }
+        }
+
+        @keyframes splashExit {
+          from {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+          to {
+            opacity: 0;
+            transform: scale(1.025);
+            filter: blur(10px);
+          }
+        }
+
+        @keyframes contentExit {
+          from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(-14px) scale(0.985);
+          }
+        }
+
+        .splash-screen::before,
+        .splash-screen::after {
+          content: "";
+          position: absolute;
           inset: 0;
-          z-index: 9999;
-          width: 100%;
-          height: 100dvh;
-          background:
-            radial-gradient(circle at 50% 18%, rgba(255,255,255,0.2), transparent 32%),
-            linear-gradient(180deg, #1b96ff 0%, #0a84ff 50%, #0362d3 100%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          font-family: var(--font-inter), sans-serif;
-          overflow: hidden;
           pointer-events: none;
-          opacity: 0;
-          transform: scale(1.035);
-          filter: saturate(0.95);
-          transition:
-            opacity 880ms cubic-bezier(0.22, 1, 0.36, 1),
-            transform 880ms cubic-bezier(0.22, 1, 0.36, 1),
-            filter 880ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .splash-container::before {
-          content: "";
-          position: absolute;
-          inset: -18%;
+        .splash-screen {
+          animation: splashReveal 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .splash-screen::before {
+          inset: -16%;
           background:
-            radial-gradient(circle at 50% 12%, rgba(255,255,255,0.18), transparent 28%),
-            radial-gradient(circle at 20% 85%, rgba(255,255,255,0.08), transparent 26%);
-          opacity: 0;
-          transform: scale(1.08);
-          transition:
-            opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
-            transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+            radial-gradient(circle at 50% 24%, rgba(255,255,255,0.2), transparent 28%),
+            radial-gradient(circle at 50% 72%, rgba(255,255,255,0.08), transparent 34%);
+          animation: splashGlow 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .splash-container::after {
-          content: "";
-          position: absolute;
-          inset: auto 50% 12%;
-          width: min(70vw, 320px);
-          height: 90px;
+        .splash-screen::after {
+          inset: 22% auto auto 50%;
+          width: min(62vw, 240px);
+          height: 220px;
           transform: translateX(-50%);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.12);
-          filter: blur(40px);
-          opacity: 0;
-          transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+          background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 68%);
+          filter: blur(28px);
+          opacity: 0.8;
         }
 
-        .splash-container.backdrop-in,
-        .splash-container.content-in {
-          opacity: 1;
-          transform: scale(1);
-          filter: saturate(1);
-        }
-
-        .splash-container.backdrop-in::before,
-        .splash-container.content-in::before {
-          opacity: 0.9;
-          transform: scale(1);
-        }
-
-        .splash-container.backdrop-in::after,
-        .splash-container.content-in::after {
-          opacity: 1;
-        }
-
-        .splash-container.exiting {
-          opacity: 0;
-          transform: scale(1.02);
-          filter: blur(10px) saturate(0.95);
-        }
-
-        .splash-container.exiting::before {
-          opacity: 0.22;
-          transform: scale(1.03);
-        }
-
-        .splash-container.exiting::after {
-          opacity: 0;
+        .splash-screen.is-exiting {
+          animation: splashExit 520ms cubic-bezier(0.4, 0, 1, 1) both;
         }
 
         .splash-content {
@@ -153,130 +254,50 @@ export function SplashScreen({ onFinish }: { onFinish: () => void }) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          width: 100%;
-          padding: 0 24px;
-          transform: translateY(24px) scale(0.965);
-          opacity: 0;
+          animation: contentFloatIn 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .splash-container.content-in .splash-content {
-          animation: contentRise 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .splash-container.exiting .splash-content {
-          opacity: 0;
-          transform: translateY(-10px) scale(0.985);
-          transition:
-            opacity 420ms cubic-bezier(0.4, 0, 1, 1),
-            transform 420ms cubic-bezier(0.4, 0, 1, 1);
-        }
-
-        .splash-brand {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
+        .splash-screen.is-exiting .splash-content {
+          animation: contentExit 420ms cubic-bezier(0.4, 0, 1, 1) both;
         }
 
         .splash-icon {
-          animation: none;
+          position: relative;
+          animation: badgeIn 820ms cubic-bezier(0.34, 1.56, 0.64, 1) both 0.08s;
+          box-shadow: 0 16px 38px rgba(9, 53, 122, 0.16);
         }
 
-        .splash-container.content-in .splash-icon {
-          animation: badgeIn 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        .splash-icon::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: linear-gradient(105deg, transparent 24%, rgba(255,255,255,0.42) 48%, transparent 72%);
+          opacity: 0;
+          animation: shimmerSweep 1.4s ease-out both 0.5s;
         }
+
+        .splash-title { animation: fadeUp 720ms ease both 0.34s; }
+        .splash-dots { animation: fadeUp 720ms ease both 0.58s; }
 
         .dot1 { animation: dotPulse 1.4s ease-in-out infinite 0s; }
         .dot2 { animation: dotPulse 1.4s ease-in-out infinite 0.2s; }
         .dot3 { animation: dotPulse 1.4s ease-in-out infinite 0.4s; }
-
-        .icon-wrap {
-          width: 92px;
-          height: 92px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
-          border-radius: 28px;
-          border: 1.5px solid rgba(255,255,255,0.24);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 28px;
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.22),
-            0 18px 45px rgba(3, 56, 126, 0.18);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-        }
-
-        .initials {
-          font-family: 'Clash Display', sans-serif;
-          font-size: 38px;
-          font-weight: 700;
-          color: #ffffff;
-          letter-spacing: -0.04em;
-          line-height: 1;
-          text-shadow: 0 6px 20px rgba(255,255,255,0.14);
-        }
-
-        .title {
-          font-family: 'Clash Display', sans-serif;
-          font-size: 28px;
-          font-weight: 700;
-          color: #ffffff;
-          letter-spacing: -0.02em;
-          margin: 0 0 18px;
-          text-align: center;
-        }
-
-        .title-wordmark {
-          display: inline-block;
-          letter-spacing: 0.03em;
-        }
-
-        .title-accent {
-          display: inline-block;
-          font-family: var(--font-inter), sans-serif;
-          font-size: 15px;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          text-transform: none;
-          color: rgba(255,255,255,0.62);
-          margin-left: 5px;
-          position: relative;
-          top: -2px;
-        }
-
-        .dots-row {
-          display: flex;
-          gap: 9px;
-          align-items: center;
-        }
-
-        .dot {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.92);
-          box-shadow: 0 0 14px rgba(255,255,255,0.22);
-        }
       `}</style>
 
       <div className="splash-content">
-        <div className="splash-brand">
-          <div className="splash-icon icon-wrap">
-            <span className="initials">TE</span>
-          </div>
+        <div className="splash-icon" style={styles.iconWrap}>
+          <span style={styles.initials}>Te</span>
+        </div>
 
-          <h1 className="splash-title title">
-            <span className="title-wordmark">TOMSKID</span>{" "}
-            <span className="title-accent">eSIM</span>
-          </h1>
+        <h1 className="splash-title" style={styles.title}>
+          TOMSKID <span style={styles.titleAccent}>eSIM</span>
+        </h1>
 
-          <div className="splash-dots dots-row">
-            <span className="dot1 dot" />
-            <span className="dot2 dot" />
-            <span className="dot3 dot" />
-          </div>
+        <div className="splash-dots" style={styles.dotsRow}>
+          <span className="dot1" style={styles.dot} />
+          <span className="dot2" style={styles.dot} />
+          <span className="dot3" style={styles.dot} />
         </div>
       </div>
     </div>
