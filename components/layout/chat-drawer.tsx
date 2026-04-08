@@ -8,14 +8,21 @@ import { cn } from "@/lib/utils"
 interface Message {
   role: "user" | "bot"
   content: string
-  timestamp: Date
+  timestamp: string
 }
 
 const HISTORY_TTL_MS = 10 * 60 * 1000
+const formatTimestamp = () =>
+  new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date())
+
 const INITIAL_MESSAGE: Message = {
   role: "bot",
   content: "Hello! I'm your friendly bot assistant. How can I help you today?",
-  timestamp: new Date(),
+  timestamp: "14:23",
 }
 
 const ROWS = {
@@ -94,7 +101,7 @@ export function ChatDrawer() {
   React.useEffect(() => {
     if (messages.length <= 1 && !isTyping) return
     const timer = window.setTimeout(() => {
-      setMessages([{ ...INITIAL_MESSAGE, timestamp: new Date() }])
+      setMessages([{ ...INITIAL_MESSAGE }])
       inputRef.current = ""
       setInputDisplay("")
       setIsTyping(false)
@@ -105,14 +112,14 @@ export function ChatDrawer() {
   const handleSend = React.useCallback(() => {
     const val = inputRef.current.trim()
     if (!val) return
-    const userMessage: Message = { role: "user", content: val, timestamp: new Date() }
+    const userMessage: Message = { role: "user", content: val, timestamp: formatTimestamp() }
     setMessages((prev) => [...prev, userMessage])
     inputRef.current = ""
     setInputDisplay("")
     setIsTyping(true)
     setTimeout(() => {
       const response = getBotResponse(val)
-      const botMessage: Message = { role: "bot", content: response, timestamp: new Date() }
+      const botMessage: Message = { role: "bot", content: response, timestamp: formatTimestamp() }
       setMessages((prev) => [...prev, botMessage])
       setIsTyping(false)
     }, 1000)
@@ -238,7 +245,7 @@ export function ChatDrawer() {
                   "mt-1 text-[10px] opacity-50",
                   message.role === "user" ? "text-right" : "text-left"
                 )}>
-                  {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {message.timestamp}
                 </div>
               </div>
             </div>

@@ -303,3 +303,5 @@ export function SplashScreen({ onFinish }: SplashScreenProps) {
     </div>
   )
 }
+
+export default SplashScreen
