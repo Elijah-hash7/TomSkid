@@ -51,7 +51,7 @@ const Key = React.memo(function Key({
       className={cn(
         "flex items-center justify-center rounded-[7px]",
         "border border-border/50 bg-muted/80 text-foreground",
-        "h-[36px] text-[12px] font-semibold select-none",
+        "h-[42px] text-[13px] font-semibold select-none",
         "shadow-[0_1px_0_rgba(0,0,0,0.15)]",
         "active:scale-95 active:bg-muted transition-transform duration-75",
         wide ? "flex-1" : "flex-1",
@@ -267,22 +267,22 @@ export function ChatDrawer() {
           <div className="flex items-center gap-2 mb-2.5">
             <div
               onPointerDown={(e) => { e.preventDefault(); setKeyboardOpen(true) }}
-              className="flex-1 h-10 rounded-full border border-border/60 bg-background/90 px-4 flex items-center cursor-pointer select-none overflow-hidden"
+              className="flex-1 h-11 rounded-full border border-border/60 bg-background/90 px-4 flex items-center cursor-pointer select-none overflow-hidden"
             >
-              <span className={cn("text-[13px]", !inputDisplay && "text-muted-foreground/60")}>
+              <span className={cn("text-[14px]", !inputDisplay && "text-muted-foreground/60")}>
                 {inputDisplay}
               </span>
               <span
-                className="inline-block w-[1.5px] h-[14px] bg-primary ml-[1px] align-middle"
+                className="inline-block w-[1.5px] h-[16px] bg-primary ml-[1px] align-middle"
                 style={{ animation: "blink 1s step-end infinite" }}
               />
             </div>
             <button
               onPointerDown={(e) => { e.preventDefault(); handleSend() }}
               disabled={!inputDisplay.trim() || isTyping}
-              className="size-10 rounded-full shrink-0 bg-primary text-primary-foreground flex items-center justify-center shadow-md active:scale-90 transition-transform disabled:opacity-40"
+              className="size-11 rounded-full shrink-0 bg-primary text-primary-foreground flex items-center justify-center shadow-md active:scale-90 transition-transform disabled:opacity-40"
             >
-              <Send className="size-3.5" />
+              <Send className="size-4" />
             </button>
           </div>
 
@@ -291,7 +291,7 @@ export function ChatDrawer() {
             <button
               type="button"
               onPointerDown={(e) => { e.preventDefault(); setKeyboardOpen((p) => !p) }}
-              className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/70 px-3 py-1 rounded-full border border-border/40 bg-background/60"
+              className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/70 px-3.5 py-1.5 rounded-full border border-border/40 bg-background/60"
             >
               {keyboardOpen ? "Hide Keyboard" : "Show Keyboard"}
             </button>
@@ -299,8 +299,8 @@ export function ChatDrawer() {
 
           {/* Keyboard */}
           {keyboardOpen && (
-            <div className="w-full rounded-2xl border border-border/50 bg-background/80 px-2 pt-2 pb-2.5">
-              <div className="space-y-1">
+            <div className="w-full rounded-2xl border border-border/50 bg-background/80 px-2.5 pt-2.5 pb-3">
+              <div className="space-y-1.5">
 
                 {/* Numbers row */}
                 <div className="flex gap-[2px]">
@@ -331,11 +331,11 @@ export function ChatDrawer() {
                 </div>
 
                 {/* Action row */}
-                <div className="flex gap-[2px] pt-0.5">
+                <div className="flex gap-[3px] pt-1">
                   <button
                     type="button"
                     onPointerDown={(e) => { e.preventDefault(); setPage((p) => p === "alpha" ? "punct" : "alpha") }}
-                    className="w-[13%] h-[36px] flex items-center justify-center rounded-[7px] border border-border/50 bg-primary/10 text-primary text-[11px] font-bold active:scale-95 transition-transform duration-75 select-none"
+                    className="w-[13%] h-[42px] flex items-center justify-center rounded-[7px] border border-border/50 bg-primary/10 text-primary text-[12px] font-bold active:scale-95 transition-transform duration-75 select-none"
                     style={{ minWidth: 0 }}
                   >
                     {page === "alpha" ? "!@#" : "ABC"}
@@ -346,10 +346,10 @@ export function ChatDrawer() {
                   <button
                     type="button"
                     onPointerDown={(e) => { e.preventDefault(); handleBackspace() }}
-                    className="w-[13%] h-[36px] flex items-center justify-center rounded-[7px] border border-border/50 bg-muted/80 active:scale-95 transition-transform duration-75 select-none"
+                    className="w-[13%] h-[42px] flex items-center justify-center rounded-[7px] border border-border/50 bg-muted/80 active:scale-95 transition-transform duration-75 select-none"
                     style={{ minWidth: 0 }}
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
                       <line x1="18" y1="9" x2="12" y2="15"/>
                       <line x1="12" y1="9" x2="18" y2="15"/>
