@@ -402,18 +402,18 @@ function OrderFormInner({
       </Card>
 
       <Dialog open={paymentStepOpen} onOpenChange={onClosePaymentStep}>
-        <DialogContent className="max-h-[92vh] w-[calc(100%-1rem)] max-w-md overflow-y-auto rounded-[2rem] border-0 bg-[#fcfdff] p-0 shadow-[0_28px_80px_rgba(15,23,42,0.18)] sm:max-w-lg" showCloseButton={!isSubmitting}>
-          <DialogHeader className="bg-[linear-gradient(180deg,#2f89ff_0%,#0a84ff_100%)] px-5 py-5 text-white sm:px-6">
-            <div className="flex items-start justify-between gap-3">
-              <div className="space-y-1">
+        <DialogContent className="max-h-[92vh] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-[2rem] border-0 bg-[#fcfdff] p-0 shadow-[0_28px_80px_rgba(15,23,42,0.18)] sm:max-w-lg" showCloseButton={!isSubmitting}>
+          <DialogHeader className="bg-[linear-gradient(180deg,#2f89ff_0%,#0a84ff_100%)] px-4 py-5 text-white sm:px-6">
+            <div className="flex items-start justify-between gap-2 pr-8 sm:pr-0">
+              <div className="space-y-1 min-w-0">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/70">
                   Payment method
                 </p>
-                <DialogTitle className="text-[1.75rem] font-bold tracking-tight text-white">
+                <DialogTitle className="text-2xl font-bold tracking-tight text-white sm:text-[1.75rem]">
                   Bank Transfer
                 </DialogTitle>
               </div>
-              <div className="rounded-full bg-white/14 px-4 py-2 text-sm font-bold uppercase tracking-[0.18em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+              <div className="shrink-0 rounded-full bg-white/14 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.18em]">
                 {BANK_NAME}
               </div>
             </div>
@@ -422,7 +422,7 @@ function OrderFormInner({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-5 px-5 py-5 sm:px-6 sm:py-6">
+          <div className="space-y-4 px-4 py-4 sm:space-y-5 sm:px-6 sm:py-6">
             {showSuccessState ? (
               <div className="space-y-5 py-2">
                 <div className="flex flex-col items-center rounded-[1.8rem] border border-[#d9e8ff] bg-[linear-gradient(180deg,#ffffff_0%,#f5f9ff_100%)] px-6 py-10 text-center shadow-[0_18px_40px_rgba(10,132,255,0.08)]">
@@ -450,11 +450,11 @@ function OrderFormInner({
               <>
             <div className="rounded-[1.6rem] border border-[#d9e8ff] bg-[#edf5ff] p-4 shadow-[0_8px_24px_rgba(10,132,255,0.08)]">
               <div className="flex items-start justify-between gap-3 border-b border-[#d4e3fb] pb-4">
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                     Account no.
                   </p>
-                  <p className="mt-1 font-mono text-[2rem] font-bold tracking-[0.18em] text-primary max-[380px]:text-[1.6rem]">
+                  <p className="mt-1 break-all font-mono text-[1.5rem] font-bold tracking-[0.08em] text-primary sm:text-[2rem] sm:tracking-[0.18em]">
                     {ACCOUNT_NUMBER}
                   </p>
                 </div>
@@ -462,7 +462,7 @@ function OrderFormInner({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
+                  className="shrink-0 rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
                   onClick={() => copyValue(ACCOUNT_NUMBER, "account")}
                 >
                   <Copy className="size-4" />
@@ -513,8 +513,8 @@ function OrderFormInner({
             </div>
 
             <div className="rounded-[1.6rem] border border-[#cfe0ff] bg-[#f3f8ff] p-4">
-              <div className="flex items-start justify-between gap-3">
-                <div className="space-y-1">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 space-y-1">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
                     Transfer narration
                   </p>
@@ -526,7 +526,7 @@ function OrderFormInner({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
+                  className="shrink-0 rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
                   onClick={() => copyValue(activeReference, "reference")}
                 >
                   <Copy className="size-4" />
@@ -534,7 +534,7 @@ function OrderFormInner({
                 </Button>
               </div>
               <div className="mt-4 rounded-[1.25rem] border border-[#d8e7ff] bg-white px-4 py-4 shadow-sm">
-                <p className="break-all font-mono text-base font-bold tracking-[0.22em] text-slate-900 sm:text-lg">
+                <p className="break-all font-mono text-sm font-bold tracking-[0.1em] text-slate-900 sm:text-base sm:tracking-[0.22em]">
                   {activeReference}
                 </p>
               </div>
@@ -565,7 +565,7 @@ function OrderFormInner({
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     className={cn(
-                      "flex min-h-44 w-full flex-col items-center justify-center gap-3 rounded-[1.35rem] border-2 border-dashed px-5 py-8 text-center transition",
+                      "flex min-h-32 w-full flex-col items-center justify-center gap-3 rounded-[1.35rem] border-2 border-dashed px-5 py-6 text-center transition sm:min-h-44 sm:py-8",
                       receiptFile
                         ? "border-[#b9d4ff] bg-[#f4f8ff]"
                         : "border-[#d8e7ff] bg-[#fbfdff] hover:border-primary/40 hover:bg-primary/[0.04]"
