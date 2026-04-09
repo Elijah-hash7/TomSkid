@@ -12,7 +12,19 @@ const items = [
   },
   {
     q: "How do I find my IMEI?",
-    a: "Dial *#06# on your phone, or check Settings → About. Upload a clear screenshot with your order so we can match your device.",
+    a: "Dial *#06# on your phone, or check Settings → About. Enter the IMEI carefully in the order form so we can match your device correctly.",
+  },
+  {
+    q: "How does payment work?",
+    a: "After you fill the order form, we show a bank transfer payment step on the same page. Pay the exact amount shown, copy the unique reference code, and use it as your transfer narration before uploading your receipt.",
+  },
+  {
+    q: "What should my payment receipt show?",
+    a: "Your receipt should clearly show the transfer amount, recipient details, and the unique reference code used in your narration. We accept JPG, PNG, and PDF receipts.",
+  },
+  {
+    q: "What if I forget to add the reference code?",
+    a: "Please contact support as soon as possible with your order details and receipt. The reference code helps us match your payment faster, so orders without it may take longer to confirm.",
   },
   {
     q: "How long does fulfillment take?",

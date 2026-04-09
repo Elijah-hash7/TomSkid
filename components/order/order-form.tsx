@@ -6,11 +6,12 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
   AlertTriangle,
-  BadgeCheck,
+  Check,
   Copy,
   FileText,
-  Landmark,
+  Upload,
   LoaderCircle,
+  X,
 } from "lucide-react"
 import { submitOrder, type SubmitOrderResult } from "@/app/actions/orders"
 import { Button } from "@/components/ui/button"
@@ -73,6 +74,7 @@ function OrderFormInner({
   const [receiptFile, setReceiptFile] = useState<File | null>(null)
   const [receiptError, setReceiptError] = useState<string | null>(null)
   const [copiedValue, setCopiedValue] = useState<"account" | "reference" | null>(null)
+  const [showSuccessState, setShowSuccessState] = useState(false)
 
   const formattedAmount = useMemo(
     () => formatMoney(plan.price_cents, plan.currency),
@@ -142,6 +144,14 @@ function OrderFormInner({
     setReceiptError(null)
   }
 
+  function removeReceipt() {
+    setReceiptFile(null)
+    setReceiptError(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
   function onClosePaymentStep(nextOpen: boolean) {
     if (isSubmitting) return
     setPaymentStepOpen(nextOpen)
@@ -192,14 +202,18 @@ function OrderFormInner({
         return
       }
 
-      setPaymentStepOpen(false)
+      setShowSuccessState(true)
       setReceiptFile(null)
       toast({
         tone: "success",
         title: "Order submitted",
         description: "Your payment receipt and order details have been sent.",
       })
-      router.push(`/orders/${result.orderId}`)
+      window.setTimeout(() => {
+        setPaymentStepOpen(false)
+        setShowSuccessState(false)
+        router.push(`/orders/${result.orderId}`)
+      }, 1500)
     })
   }
 
@@ -388,64 +402,143 @@ function OrderFormInner({
       </Card>
 
       <Dialog open={paymentStepOpen} onOpenChange={onClosePaymentStep}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto rounded-[28px] border-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,250,255,0.98))] p-0 shadow-[0_28px_80px_rgba(15,23,42,0.18)] sm:max-w-2xl" showCloseButton={!isSubmitting}>
-          <DialogHeader className="border-b border-border/60 bg-[linear-gradient(180deg,rgba(10,132,255,0.1),rgba(255,255,255,0))] px-6 py-6 sm:px-7">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-              <BadgeCheck className="size-3.5" />
-              Payment required
+        <DialogContent className="max-h-[92vh] w-[calc(100%-1rem)] max-w-md overflow-y-auto rounded-[2rem] border-0 bg-[#fcfdff] p-0 shadow-[0_28px_80px_rgba(15,23,42,0.18)] sm:max-w-lg" showCloseButton={!isSubmitting}>
+          <DialogHeader className="bg-[linear-gradient(180deg,#2f89ff_0%,#0a84ff_100%)] px-5 py-5 text-white sm:px-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/70">
+                  Payment method
+                </p>
+                <DialogTitle className="text-[1.75rem] font-bold tracking-tight text-white">
+                  Bank Transfer
+                </DialogTitle>
+              </div>
+              <div className="rounded-full bg-white/14 px-4 py-2 text-sm font-bold uppercase tracking-[0.18em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+                {BANK_NAME}
+              </div>
             </div>
-            <DialogTitle className="text-2xl font-semibold tracking-tight text-foreground">
-              Complete payment to send your order
-            </DialogTitle>
-            <DialogDescription className="max-w-xl text-sm leading-6">
-              No refresh, no redirect. Once you pay and upload the receipt here, we send the full order to the admin dashboard.
+            <DialogDescription className="pt-3 text-sm leading-6 text-white/78">
+              Pay the exact amount below, use your unique code as narration, then upload your receipt here to send the order.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 px-6 py-6 sm:px-7">
-            <div className="grid gap-4 md:grid-cols-2">
-              <PaymentInfoCard
-                label="Bank"
-                value={BANK_NAME}
-                icon={<Landmark className="size-4" />}
-              />
-              <CopyablePaymentCard
-                label="Account number"
-                value={ACCOUNT_NUMBER}
-                copied={copiedValue === "account"}
-                onCopy={() => copyValue(ACCOUNT_NUMBER, "account")}
-              />
-              <PaymentInfoCard label="Account name" value={ACCOUNT_NAME} icon={<BadgeCheck className="size-4" />} />
-              <PaymentInfoCard label="Amount to pay" value={formattedAmount} icon={<FileText className="size-4" />} highlight />
-            </div>
-
-            <div className="rounded-[24px] border border-primary/15 bg-primary/[0.05] p-4 sm:p-5">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="space-y-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-                    Transfer narration
+          <div className="space-y-5 px-5 py-5 sm:px-6 sm:py-6">
+            {showSuccessState ? (
+              <div className="space-y-5 py-2">
+                <div className="flex flex-col items-center rounded-[1.8rem] border border-[#d9e8ff] bg-[linear-gradient(180deg,#ffffff_0%,#f5f9ff_100%)] px-6 py-10 text-center shadow-[0_18px_40px_rgba(10,132,255,0.08)]">
+                  <div className="flex size-16 items-center justify-center rounded-full bg-[#e8f3ff] text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                    <Check className="size-8" />
+                  </div>
+                  <h3 className="mt-5 text-2xl font-bold tracking-tight text-slate-900">
+                    Payment proof submitted
+                  </h3>
+                  <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+                    We’ve received your receipt and order details. You’ll be redirected to your order shortly.
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    Add this unique code as your transfer description/narration. Keep it exactly the same.
+
+                  <div className="mt-6 w-full rounded-[1.35rem] border border-[#d9e8ff] bg-[#edf5ff] p-4 text-left">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                      Transfer reference
+                    </p>
+                    <p className="mt-2 break-all font-mono text-base font-bold tracking-[0.18em] text-primary">
+                      {activeReference}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+            <div className="rounded-[1.6rem] border border-[#d9e8ff] bg-[#edf5ff] p-4 shadow-[0_8px_24px_rgba(10,132,255,0.08)]">
+              <div className="flex items-start justify-between gap-3 border-b border-[#d4e3fb] pb-4">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                    Account no.
+                  </p>
+                  <p className="mt-1 font-mono text-[2rem] font-bold tracking-[0.18em] text-primary max-[380px]:text-[1.6rem]">
+                    {ACCOUNT_NUMBER}
                   </p>
                 </div>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="rounded-full"
+                  className="rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
+                  onClick={() => copyValue(ACCOUNT_NUMBER, "account")}
+                >
+                  <Copy className="size-4" />
+                  {copiedValue === "account" ? "Copied" : "Copy"}
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                    Account name
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-slate-900">
+                    {ACCOUNT_NAME}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                    Bank
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-slate-900">
+                    {BANK_NAME}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-[1.35rem] border border-[#d9e8ff] bg-white px-4 py-4 shadow-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Amount to pay
+                </p>
+                <p className="mt-2 text-xl font-bold tracking-tight text-primary">
+                  {formattedAmount}
+                </p>
+              </div>
+              <div className="rounded-[1.35rem] border border-[#d9e8ff] bg-white px-4 py-4 shadow-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Order plan
+                </p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">
+                  {plan.name}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {plan.carrier.name}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-[1.6rem] border border-[#cfe0ff] bg-[#f3f8ff] p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+                    Transfer narration
+                  </p>
+                  <p className="text-sm text-slate-500">
+                    Use this exact unique code as your transfer description.
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="rounded-xl border-[#c8defe] bg-white text-primary shadow-sm"
                   onClick={() => copyValue(activeReference, "reference")}
                 >
                   <Copy className="size-4" />
-                  {copiedValue === "reference" ? "Copied" : "Copy code"}
+                  {copiedValue === "reference" ? "Copied" : "Copy"}
                 </Button>
               </div>
-              <div className="mt-4 rounded-2xl border border-primary/20 bg-white px-4 py-4 shadow-sm">
-                <p className="break-all font-mono text-lg font-semibold tracking-[0.16em] text-foreground sm:text-xl">
+              <div className="mt-4 rounded-[1.25rem] border border-[#d8e7ff] bg-white px-4 py-4 shadow-sm">
+                <p className="break-all font-mono text-base font-bold tracking-[0.22em] text-slate-900 sm:text-lg">
                   {activeReference}
                 </p>
               </div>
-              <div className="mt-4 flex gap-3 rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              <div className="mt-4 flex gap-3 rounded-[1.2rem] border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm text-amber-900">
                 <AlertTriangle className="mt-0.5 size-4 shrink-0" />
                 <p>
                   You must include this code in the transfer narration, and the uploaded receipt should clearly show the payment details and this unique reference code.
@@ -453,15 +546,12 @@ function OrderFormInner({
               </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-              <Card className="border border-border/70 bg-white/90 shadow-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Upload receipt</CardTitle>
-                  <CardDescription>
-                    Accepts JPG, PNG, or PDF. Make sure the receipt clearly shows the amount and reference code.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
+            <div className="space-y-5">
+              <div>
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  Proof of payment
+                </p>
+                <div className="rounded-[1.5rem] border border-border/60 bg-white p-4 shadow-sm">
                   <input
                     ref={fileInputRef}
                     id="payment_receipt"
@@ -475,35 +565,63 @@ function OrderFormInner({
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     className={cn(
-                      "flex min-h-40 w-full flex-col items-center justify-center gap-3 rounded-[24px] border border-dashed border-border bg-muted/25 px-5 py-8 text-center transition hover:border-primary/40 hover:bg-primary/[0.04]",
-                      receiptFile && "border-primary/30 bg-primary/[0.05]"
+                      "flex min-h-44 w-full flex-col items-center justify-center gap-3 rounded-[1.35rem] border-2 border-dashed px-5 py-8 text-center transition",
+                      receiptFile
+                        ? "border-[#b9d4ff] bg-[#f4f8ff]"
+                        : "border-[#d8e7ff] bg-[#fbfdff] hover:border-primary/40 hover:bg-primary/[0.04]"
                     )}
                   >
-                    <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                      <FileText className="size-5" />
+                    <div className="flex size-12 items-center justify-center rounded-full bg-[#e8f3ff] text-primary">
+                      <Upload className="size-5" />
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-foreground">
-                        {receiptFile ? receiptFile.name : "Tap to upload receipt"}
+                      <p className="text-base font-semibold text-slate-800">
+                        {receiptFile ? "Receipt selected" : "Click to upload or drag & drop"}
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        PNG, JPG, JPEG, or PDF
+                      <p className="text-xs text-slate-400">
+                        PNG, JPG, PDF · max 10MB
                       </p>
                     </div>
                   </button>
+                  {receiptFile ? (
+                    <div className="mt-3 flex items-center gap-3 rounded-[1rem] border border-border/60 bg-slate-50 px-4 py-3">
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#e8f3ff] text-primary">
+                        <FileText className="size-4" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-slate-800">
+                          {receiptFile.name}
+                        </p>
+                        <p className="text-xs text-slate-400">
+                          {formatFileSize(receiptFile.size)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeReceipt}
+                        className="text-slate-300 transition-colors hover:text-red-400"
+                        aria-label="Remove receipt"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  ) : null}
                   {receiptError ? <FieldError>{receiptError}</FieldError> : null}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card className="border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(247,250,255,0.98))] shadow-sm">
+              <Card className="border border-border/60 bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(247,250,255,0.96))] shadow-sm">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base">Order summary</CardTitle>
-                  <CardDescription>Double-check what you are about to send.</CardDescription>
+                  <CardDescription>
+                    The admin gets these details together with your receipt.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <SummaryRow label="Carrier" value={plan.carrier.name} />
                   <SummaryRow label="Plan" value={plan.name} />
                   <SummaryRow label="Amount" value={formattedAmount} />
+                  <SummaryRow label="Reference" value={activeReference} mono />
                   <SummaryRow label="Email" value={formValues.email} />
                   <SummaryRow label="IMEI" value={formValues.imei} mono />
                 </CardContent>
@@ -516,11 +634,11 @@ function OrderFormInner({
               </p>
             ) : null}
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <div className="flex flex-col gap-3">
               <Button
                 type="button"
                 variant="outline"
-                className="h-11 rounded-2xl"
+                className="h-11 rounded-2xl border-[#d7e6ff] bg-white"
                 disabled={isSubmitting}
                 onClick={() => setPaymentStepOpen(false)}
               >
@@ -528,7 +646,7 @@ function OrderFormInner({
               </Button>
               <Button
                 type="button"
-                className="h-11 rounded-2xl px-6 shadow-[0_16px_30px_rgba(10,132,255,0.22)]"
+                className="h-12 rounded-2xl px-6 text-sm font-bold shadow-[0_16px_30px_rgba(10,132,255,0.22)]"
                 disabled={isSubmitting}
                 onClick={onFinalSubmit}
               >
@@ -542,6 +660,8 @@ function OrderFormInner({
                 )}
               </Button>
             </div>
+              </>
+            )}
           </div>
         </DialogContent>
       </Dialog>
@@ -554,64 +674,6 @@ export function OrderForm(props: {
   defaultEmail?: string
 }) {
   return <OrderFormInner {...props} />
-}
-
-function PaymentInfoCard({
-  label,
-  value,
-  icon,
-  highlight,
-}: {
-  label: string
-  value: string
-  icon: ReactNode
-  highlight?: boolean
-}) {
-  return (
-    <div
-      className={cn(
-        "rounded-[24px] border border-border/70 bg-white px-4 py-4 shadow-sm",
-        highlight && "border-primary/20 bg-primary/[0.05]"
-      )}
-    >
-      <div className="mb-2 flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-        {icon}
-      </div>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-1 break-all text-sm font-semibold text-foreground">{value}</p>
-    </div>
-  )
-}
-
-function CopyablePaymentCard({
-  label,
-  value,
-  copied,
-  onCopy,
-}: {
-  label: string
-  value: string
-  copied: boolean
-  onCopy: () => void
-}) {
-  return (
-    <div className="rounded-[24px] border border-border/70 bg-white px-4 py-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            {label}
-          </p>
-          <p className="mt-1 font-mono text-base font-semibold text-foreground">{value}</p>
-        </div>
-        <Button type="button" variant="outline" size="sm" className="rounded-full" onClick={onCopy}>
-          <Copy className="size-4" />
-          {copied ? "Copied" : "Copy"}
-        </Button>
-      </div>
-    </div>
-  )
 }
 
 function SummaryRow({
@@ -646,4 +708,10 @@ function generateReferenceCode() {
   ].join("")
   const randomPart = Math.random().toString(36).slice(2, 6).toUpperCase().padEnd(4, "0")
   return `TSK-${datePart}-${randomPart}`
+}
+
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
