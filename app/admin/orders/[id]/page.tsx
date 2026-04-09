@@ -14,9 +14,10 @@ export default async function AdminOrderDetailPage({
   const order = await getOrderByIdAdmin(id)
   if (!order) notFound()
 
-  const [imeiImageUrl, proofUrl] = await Promise.all([
+  const [imeiImageUrl, proofUrl, paymentReceiptUrl] = await Promise.all([
     getStoragePublicUrl(STORAGE_BUCKETS.imei, order.imei_screenshot_path),
     getStoragePublicUrl(STORAGE_BUCKETS.delivery, order.delivery_proof_path),
+    getStoragePublicUrl(STORAGE_BUCKETS.payment, order.payment_receipt_path),
   ])
 
   return (
@@ -42,6 +43,7 @@ export default async function AdminOrderDetailPage({
         order={order}
         imeiImageUrl={imeiImageUrl}
         proofUrl={proofUrl}
+        paymentReceiptUrl={paymentReceiptUrl}
       />
     </div>
   )

@@ -4,6 +4,7 @@ import { isDemoModeEnabled } from "@/lib/demo-mode"
 export const STORAGE_BUCKETS = {
   imei: "imei-screenshots",
   delivery: "delivery-proofs",
+  payment: "payment-receipts",
 } as const
 
 export async function getStoragePublicUrl(

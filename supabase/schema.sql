@@ -85,6 +85,8 @@ create table if not exists public.orders (
   state                 text        not null,
   zip_code              text        not null,
   imei                  text        not null,
+  payment_reference     text,
+  payment_receipt_path  text,
   -- File paths (Supabase Storage)
   imei_screenshot_path  text,
   delivery_proof_path   text,
@@ -193,7 +195,8 @@ create policy "Admins can update any order"
 insert into storage.buckets (id, name, public)
 values
   ('imei-screenshots', 'imei-screenshots', false),
-  ('delivery-proofs',  'delivery-proofs',  false)
+  ('delivery-proofs',  'delivery-proofs',  false),
+  ('payment-receipts', 'payment-receipts', false)
 on conflict (id) do nothing;
 
 -- imei-screenshots: path = {user_id}/{order_id}/{filename}
@@ -226,3 +229,22 @@ create policy "Admins can read all delivery proofs"
 
 -- Customers can read delivery proof for their own orders
 -- (server actions handle this via signed URLs — see app/actions/files.ts)
+
+-- payment-receipts: path = {user_id}/{payment_reference}/{filename}
+create policy "Users can upload own payment receipts"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'payment-receipts'
+    and auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+create policy "Users can read own payment receipts"
+  on storage.objects for select
+  using (
+    bucket_id = 'payment-receipts'
+    and auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+create policy "Admins can read all payment receipts"
+  on storage.objects for select
+  using (bucket_id = 'payment-receipts' and public.is_admin());

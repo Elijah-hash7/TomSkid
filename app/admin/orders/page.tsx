@@ -94,6 +94,13 @@ export default async function AdminOrdersPage({
                     <InfoPair label="State" value={order.state} />
                   </div>
 
+                  <div className="rounded-xl border border-border/60 bg-white/70 px-3 py-2.5">
+                    <InfoPair
+                      label="Payment reference"
+                      value={order.payment_reference ?? "Not provided"}
+                    />
+                  </div>
+
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <OrderStatusBadge status={order.status} />
                     <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50">

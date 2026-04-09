@@ -10,4 +10,9 @@ export const orderFormSchema = z.object({
   email: z.string().email("Valid email required"),
 })
 
+export const paymentReferenceSchema = z.string().regex(
+  /^TSK-\d{8}-[A-Z0-9]{4}$/,
+  "Invalid payment reference"
+)
+
 export type OrderFormValues = z.infer<typeof orderFormSchema>

@@ -39,6 +39,8 @@ export type OrderRow = {
   zip_code: string
   imei: string
   email: string
+  payment_reference: string | null
+  payment_receipt_path: string | null
   imei_screenshot_path: string | null
   delivery_proof_path: string | null
   created_at: string

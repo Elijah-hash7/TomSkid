@@ -2,7 +2,16 @@
 
 import type { ComponentType, FormEvent } from "react"
 import { useState, useTransition } from "react"
-import { Check, Copy, Mail, MapPin, Smartphone, User } from "lucide-react"
+import {
+  Check,
+  Copy,
+  FileBadge,
+  Mail,
+  MapPin,
+  ReceiptText,
+  Smartphone,
+  User,
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 import { uploadDeliveryProof } from "@/app/actions/admin"
 import { OrderStatusBadge } from "@/components/order/status-badge"
@@ -22,10 +31,12 @@ export function AdminOrderPanel({
   order,
   imeiImageUrl,
   proofUrl,
+  paymentReceiptUrl,
 }: {
   order: OrderWithPlan
   imeiImageUrl: string | null
   proofUrl: string | null
+  paymentReceiptUrl: string | null
 }) {
   const router = useRouter()
   const { toast } = useToast()
@@ -61,7 +72,14 @@ export function AdminOrderPanel({
     { label: "ZIP code", value: order.zip_code, icon: MapPin },
     { label: "IMEI", value: order.imei, icon: Smartphone },
     { label: "Email", value: order.email, icon: Mail },
+    {
+      label: "Payment reference",
+      value: order.payment_reference ?? "Not provided",
+      icon: ReceiptText,
+    },
   ]
+
+  const paymentReceiptIsPdf = order.payment_receipt_path?.toLowerCase().endsWith(".pdf")
 
   return (
     <div className="space-y-6">
@@ -75,7 +93,7 @@ export function AdminOrderPanel({
               <div className="flex flex-wrap items-center gap-3">
                 <OrderStatusBadge status={order.status} />
                 <span className="text-sm text-muted-foreground">
-                  Upload proof to complete this order.
+                  Payment evidence is attached below for admin review.
                 </span>
               </div>
             </div>
@@ -86,6 +104,44 @@ export function AdminOrderPanel({
               <CopyableDetailCard key={item.label} {...item} />
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-0 bg-white shadow-sm ring-1 ring-border/70">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Payment receipt</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {paymentReceiptUrl ? (
+            <div className="space-y-4">
+              {paymentReceiptIsPdf ? (
+                <div className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-2xl border border-border/70 bg-muted/20 px-4 py-6 text-center">
+                  <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <FileBadge className="size-5" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Payment receipt was uploaded as a PDF.
+                  </p>
+                  <Button asChild className="rounded-2xl">
+                    <a href={paymentReceiptUrl} target="_blank" rel="noreferrer">
+                      Open payment receipt
+                    </a>
+                  </Button>
+                </div>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={paymentReceiptUrl}
+                  alt="Payment receipt"
+                  className="max-h-80 w-full rounded-2xl border border-border/70 bg-muted/20 object-contain"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border bg-muted/25 px-4 text-center text-sm text-muted-foreground">
+              Customer payment receipt has not been uploaded.
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -103,7 +159,7 @@ export function AdminOrderPanel({
             />
           ) : (
             <div className="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border bg-muted/25 px-4 text-center text-sm text-muted-foreground">
-              Upload a proof screenshot. The order will automatically move to delivered.
+              Upload proof screenshot when this order has been fulfilled.
             </div>
           )}
           <form onSubmit={onProofSubmit} className="space-y-3">
