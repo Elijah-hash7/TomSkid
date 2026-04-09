@@ -58,8 +58,8 @@ create table if not exists public.plans (
   name          text        not null,
   data_label    text        not null,          -- e.g. "10 GB"
   validity_days int         not null,
-  price_cents   int         not null,          -- price in cents (e.g. 2500 = $25.00)
-  currency      text        not null default 'USD',
+  price_cents   int         not null,          -- price in kobo-style minor units (e.g. 2500 = NGN 25.00)
+  currency      text        not null default 'NGN',
   features      text[],                        -- e.g. ARRAY['5G', 'Hotspot']
   badge         text,                          -- e.g. "Best Value"
   is_featured   boolean     not null default false,

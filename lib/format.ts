@@ -1,7 +1,17 @@
-export function formatMoney(cents: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
+export function normalizeCurrencyCode(currency?: string | null) {
+  const normalized = currency?.trim().toUpperCase()
+
+  if (!normalized || normalized === "USD" || normalized === "NG") {
+    return "NGN"
+  }
+
+  return normalized
+}
+
+export function formatMoney(cents: number, currency = "NGN") {
+  return new Intl.NumberFormat("en-NG", {
     style: "currency",
-    currency,
+    currency: normalizeCurrencyCode(currency),
     maximumFractionDigits: 0,
   }).format(cents / 100)
 }

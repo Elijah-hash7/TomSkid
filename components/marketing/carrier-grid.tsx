@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { formatMoney } from "@/lib/format"
 import { getPlans } from "@/lib/data/queries"
 import type { CarrierRow } from "@/lib/types/database"
 import { cn } from "@/lib/utils"
@@ -40,12 +41,7 @@ function CarrierCard({
                 </p>
                 {minCents != null ? (
                   <p className="text-xs text-muted-foreground">
-                    From{" "}
-                    {(minCents / 100).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                    })}
+                    From {formatMoney(minCents, "NGN")}
                   </p>
                 ) : (
                   <p className="text-xs text-muted-foreground">View plans</p>

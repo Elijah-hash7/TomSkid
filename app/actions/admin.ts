@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server"
 import { requireAdminRole } from "@/lib/supabase/auth"
 import { carrierCatalog } from "@/lib/carrier-catalog"
 import { isDemoModeEnabled } from "@/lib/demo-mode"
+import { normalizeCurrencyCode } from "@/lib/format"
 import {
   deleteLocalCarrier,
   isMissingTableError,
@@ -216,7 +217,7 @@ const planSchema = z.object({
   data_label: z.string().min(1, "Data label is required"),
   validity_days: z.coerce.number().int().positive("Validity must be a positive number"),
   price_cents: z.coerce.number().int().nonnegative("Price must be non-negative"),
-  currency: z.string().min(1).default("USD"),
+  currency: z.string().min(1).default("NGN"),
   features: z.string().optional(),
   badge: z.string().optional(),
   is_featured: z.boolean().default(false),
@@ -248,7 +249,7 @@ export async function upsertPlan(
     data_label: data.data_label,
     validity_days: data.validity_days,
     price_cents: data.price_cents,
-    currency: data.currency,
+    currency: normalizeCurrencyCode(data.currency),
     features,
     badge: data.badge || null,
     is_featured: data.is_featured,

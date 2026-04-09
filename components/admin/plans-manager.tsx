@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/toast-provider"
-import { formatMoney } from "@/lib/format"
+import { formatMoney, normalizeCurrencyCode } from "@/lib/format"
 import type { CarrierRow, PlanWithCarrier } from "@/lib/types/database"
 
 type PlanFilter = "active" | "archived" | "all"
@@ -77,8 +77,9 @@ export function PlansManager({
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const fd = new FormData(e.currentTarget)
-    const dollars = Number(String(fd.get("price_dollars") ?? "0"))
-    const cents = Math.round(dollars * 100)
+    const amount = Number(String(fd.get("price_amount") ?? "0"))
+    const cents = Math.round(amount * 100)
+    const currency = normalizeCurrencyCode(String(fd.get("currency") ?? "NGN"))
 
     startTransition(async () => {
       try {
@@ -88,7 +89,7 @@ export function PlansManager({
           data_label: String(fd.get("data_label") ?? ""),
           validity_days: Number(fd.get("validity_days") ?? 30),
           price_cents: cents,
-          currency: String(fd.get("currency") ?? "USD") || "USD",
+          currency,
           features: String(fd.get("features") ?? ""),
           badge: String(fd.get("badge") ?? ""),
           is_featured: fd.get("is_featured") === "on",
@@ -275,15 +276,15 @@ export function PlansManager({
 
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <Field>
-                  <Label htmlFor="price_dollars">Price (USD)</Label>
+                  <Label htmlFor="price_amount">Price (NGN)</Label>
                   <Input
-                    id="price_dollars"
-                    name="price_dollars"
+                    id="price_amount"
+                    name="price_amount"
                     type="number"
                     min={0}
                     step={0.01}
                     required
-                    defaultValue={editing ? (editing.price_cents / 100).toFixed(2) : "19"}
+                    defaultValue={editing ? (editing.price_cents / 100).toFixed(2) : "19000"}
                     className="h-12 rounded-2xl border-gray-300 bg-muted/20 px-4"
                   />
                 </Field>
@@ -292,7 +293,7 @@ export function PlansManager({
                   <Input
                     id="currency"
                     name="currency"
-                    defaultValue={editing?.currency ?? "USD"}
+                    defaultValue={normalizeCurrencyCode(editing?.currency ?? "NGN")}
                     className="h-12 rounded-2xl border-gray-300 bg-muted/20 px-4"
                   />
                 </Field>

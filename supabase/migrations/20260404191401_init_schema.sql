@@ -54,7 +54,7 @@ create table if not exists public.plans (
   data_label    text        not null,
   validity_days int         not null,
   price_cents   int         not null,
-  currency      text        not null default 'USD',
+  currency      text        not null default 'NGN',
   features      text[],
   badge         text,
   is_featured   boolean     not null default false,

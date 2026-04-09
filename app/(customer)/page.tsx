@@ -155,7 +155,7 @@ function CarrierShowcaseCard({
         {shortCarrierName(carrier.name)}
       </p>
       <p className="mt-0.5 text-xs text-muted-foreground/75">
-        {price == null ? "Starting soon" : `From $${price}`}
+        {price == null ? "Starting soon" : `From ${formatMoney(price * 100, "NGN")}`}
       </p>
     </Link>
   )
