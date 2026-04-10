@@ -88,6 +88,8 @@ export const demoOrders: OrderWithPlan[] = [
     payment_receipt_path: null,
     imei_screenshot_path: null,
     delivery_proof_path: null,
+    delivered_at: null,
+    expires_at: null,
     created_at: "2026-04-02T09:30:00.000Z",
     updated_at: "2026-04-02T09:30:00.000Z",
     plan: {
@@ -125,6 +127,8 @@ export const demoOrders: OrderWithPlan[] = [
     payment_receipt_path: null,
     imei_screenshot_path: null,
     delivery_proof_path: null,
+    delivered_at: null,
+    expires_at: null,
     created_at: "2026-04-03T14:15:00.000Z",
     updated_at: "2026-04-03T15:00:00.000Z",
     plan: {
@@ -162,6 +166,8 @@ export const demoOrders: OrderWithPlan[] = [
     payment_receipt_path: null,
     imei_screenshot_path: null,
     delivery_proof_path: null,
+    delivered_at: "2026-04-01T10:45:00.000Z",
+    expires_at: "2026-05-01T10:45:00.000Z",
     created_at: "2026-04-01T08:00:00.000Z",
     updated_at: "2026-04-01T10:45:00.000Z",
     plan: {

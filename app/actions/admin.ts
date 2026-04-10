@@ -42,9 +42,36 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
     return
   }
   const supabase = await createClient()
+  const now = new Date()
+
+  let expiryFields: { delivered_at?: string; expires_at?: string } = {}
+  if (parsed.data === "delivered") {
+    // Fetch validity_days from the order's linked plan
+    const { data: orderData } = await supabase
+      .from("orders")
+      .select("plan_id")
+      .eq("id", orderId)
+      .single()
+    if (orderData) {
+      const { data: planData } = await supabase
+        .from("plans")
+        .select("validity_days")
+        .eq("id", orderData.plan_id)
+        .single()
+      if (planData) {
+        const expiresAt = new Date(now)
+        expiresAt.setDate(expiresAt.getDate() + planData.validity_days)
+        expiryFields = {
+          delivered_at: now.toISOString(),
+          expires_at: expiresAt.toISOString(),
+        }
+      }
+    }
+  }
+
   const { error } = await supabase
     .from("orders")
-    .update({ status: parsed.data, updated_at: new Date().toISOString() })
+    .update({ status: parsed.data, updated_at: now.toISOString(), ...expiryFields })
     .eq("id", orderId)
   if (error) throw new Error(error.message)
   revalidatePath("/admin/orders")
@@ -78,12 +105,36 @@ export async function uploadDeliveryProof(orderId: string, formData: FormData) {
       upsert: true,
     })
   if (upError) throw new Error(upError.message)
+  const now = new Date()
+  let expiryFields: { delivered_at?: string; expires_at?: string } = {}
+  const { data: orderData2 } = await supabase
+    .from("orders")
+    .select("plan_id")
+    .eq("id", orderId)
+    .single()
+  if (orderData2) {
+    const { data: planData2 } = await supabase
+      .from("plans")
+      .select("validity_days")
+      .eq("id", orderData2.plan_id)
+      .single()
+    if (planData2) {
+      const expiresAt = new Date(now)
+      expiresAt.setDate(expiresAt.getDate() + planData2.validity_days)
+      expiryFields = {
+        delivered_at: now.toISOString(),
+        expires_at: expiresAt.toISOString(),
+      }
+    }
+  }
+
   const { error: dbError } = await supabase
     .from("orders")
     .update({
       delivery_proof_path: path,
       status: "delivered",
-      updated_at: new Date().toISOString(),
+      updated_at: now.toISOString(),
+      ...expiryFields,
     })
     .eq("id", orderId)
   if (dbError) throw new Error(dbError.message)

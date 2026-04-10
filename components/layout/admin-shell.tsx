@@ -7,6 +7,7 @@ import {
   Package,
   Smartphone,
   ShieldCheck,
+  Users,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -17,6 +18,7 @@ const nav = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/orders", label: "Orders", icon: Package },
   { href: "/admin/plans", label: "Plans", icon: Smartphone },
+  { href: "/admin/users", label: "Users", icon: Users },
 ] as const
 
 export function AdminShell({

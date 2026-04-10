@@ -43,6 +43,8 @@ export type OrderRow = {
   payment_receipt_path: string | null
   imei_screenshot_path: string | null
   delivery_proof_path: string | null
+  delivered_at: string | null
+  expires_at: string | null
   created_at: string
   updated_at: string
 }

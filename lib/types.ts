@@ -124,6 +124,8 @@ export type Database = {
           imei_screenshot_path: string | null
           delivery_proof_path: string | null
           admin_note: string | null
+          delivered_at: string | null
+          expires_at: string | null
           created_at: string
           updated_at: string
         }
@@ -143,6 +145,8 @@ export type Database = {
           imei_screenshot_path?: string | null
           delivery_proof_path?: string | null
           admin_note?: string | null
+          delivered_at?: string | null
+          expires_at?: string | null
         }
         Update: {
           status?: OrderStatus
@@ -151,6 +155,8 @@ export type Database = {
           imei_screenshot_path?: string | null
           delivery_proof_path?: string | null
           admin_note?: string | null
+          delivered_at?: string | null
+          expires_at?: string | null
           updated_at?: string
         }
         Relationships: [

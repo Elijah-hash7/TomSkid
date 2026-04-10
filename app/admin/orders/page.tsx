@@ -1,10 +1,18 @@
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { AlertTriangle, ChevronRight } from "lucide-react"
 import { OrderStatusBadge } from "@/components/order/status-badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { formatDate, formatMoney } from "@/lib/format"
 import { getAllOrders } from "@/lib/data/queries"
 import type { OrderStatus } from "@/lib/types/database"
+
+function getExpiryWarning(expiresAt: string | null): "expired" | "soon" | null {
+  if (!expiresAt) return null
+  const ms = new Date(expiresAt).getTime() - Date.now()
+  if (ms < 0) return "expired"
+  if (ms < 2 * 24 * 60 * 60 * 1000) return "soon"
+  return null
+}
 
 const FILTERS: Array<{ label: string; value: "all" | OrderStatus }> = [
   { label: "All", value: "all" },
@@ -102,7 +110,24 @@ export default async function AdminOrdersPage({
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <OrderStatusBadge status={order.status} />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <OrderStatusBadge status={order.status} />
+                      {(() => {
+                        const w = getExpiryWarning(order.expires_at ?? null)
+                        if (!w) return null
+                        return (
+                          <span className={[
+                            "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[0.68rem] font-semibold",
+                            w === "expired"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-amber-100 text-amber-700",
+                          ].join(" ")}>
+                            <AlertTriangle className="size-3" />
+                            {w === "expired" ? "Expired" : "Expiring soon"}
+                          </span>
+                        )
+                      })()}
+                    </div>
                     <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50">
                       Open details
                     </span>

@@ -9,6 +9,7 @@ import {
   Check,
   Copy,
   FileText,
+  RefreshCw,
   Upload,
   LoaderCircle,
   X,
@@ -43,6 +44,8 @@ import type { PlanWithCarrier } from "@/lib/types/database"
 
 type FormFields = Omit<OrderFormValues, "plan_id">
 
+export type OrderFormDefaults = Partial<FormFields>
+
 const BANK_NAME = "PalmPay"
 const ACCOUNT_NUMBER = "8081824760"
 const ACCOUNT_NAME = "Tomiwa Oluwasegun"
@@ -51,21 +54,25 @@ const RECEIPT_ACCEPT = ".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pd
 function OrderFormInner({
   plan,
   defaultEmail,
+  defaultValues,
+  isRefill,
 }: {
   plan: PlanWithCarrier
   defaultEmail?: string
+  defaultValues?: OrderFormDefaults
+  isRefill?: boolean
 }) {
   const router = useRouter()
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isSubmitting, startTransition] = useTransition()
   const [formValues, setFormValues] = useState<FormFields>({
-    full_name: "",
-    state: "",
-    phone_model: "",
-    zip_code: "",
-    imei: "",
-    email: defaultEmail ?? "",
+    full_name: defaultValues?.full_name ?? "",
+    state: defaultValues?.state ?? "",
+    phone_model: defaultValues?.phone_model ?? "",
+    zip_code: defaultValues?.zip_code ?? "",
+    imei: defaultValues?.imei ?? "",
+    email: defaultValues?.email ?? defaultEmail ?? "",
   })
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormFields, string>>>({})
   const [submitState, setSubmitState] = useState<SubmitOrderResult | null>(null)
@@ -237,13 +244,22 @@ function OrderFormInner({
     <>
       <Card className="overflow-hidden border-0 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_24px_64px_rgba(15,23,42,0.08)] ring-1 ring-border/70">
         <CardHeader className="space-y-4 border-b border-border/60 bg-[linear-gradient(180deg,rgba(10,132,255,0.08),rgba(255,255,255,0))] pb-6">
-          <div className="inline-flex w-fit items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
-            Secure checkout
-          </div>
+          {isRefill ? (
+            <div className="flex items-center gap-2.5 rounded-2xl border border-primary/20 bg-primary/[0.06] px-4 py-3 text-sm font-medium text-primary">
+              <RefreshCw className="size-4 shrink-0 stroke-[2px]" />
+              Refill your plan — details pre-filled from your last order
+            </div>
+          ) : (
+            <div className="inline-flex w-fit items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
+              Secure checkout
+            </div>
+          )}
           <div className="space-y-2">
-            <CardTitle className="text-2xl">Order details</CardTitle>
+            <CardTitle className="text-2xl">{isRefill ? "Refill your plan" : "Order details"}</CardTitle>
             <CardDescription className="max-w-md text-sm leading-6">
-              Fill in your details below, then complete payment before your order is sent.
+              {isRefill
+                ? "Update anything that has changed, then complete payment as usual."
+                : "Fill in your details below, then complete payment before your order is sent."}
             </CardDescription>
           </div>
           <div className="grid gap-3 rounded-2xl border border-border/70 bg-white/90 p-4 shadow-sm sm:grid-cols-3">
@@ -672,6 +688,8 @@ function OrderFormInner({
 export function OrderForm(props: {
   plan: PlanWithCarrier
   defaultEmail?: string
+  defaultValues?: OrderFormDefaults
+  isRefill?: boolean
 }) {
   return <OrderFormInner {...props} />
 }
