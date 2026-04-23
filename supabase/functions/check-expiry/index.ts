@@ -1,4 +1,8 @@
+// @ts-ignore - Deno imports are not resolved by Next.js TypeScript natively
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
+// @ts-ignore - Declare Deno globally for TS compiler in the editor
+declare const Deno: any;
 
 const RESEND_API = "https://api.resend.com/emails"
 const FROM_ADDRESS = "noreply@tomskid.com"

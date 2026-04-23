@@ -1,7 +1,7 @@
 "use client"
 
 import type { ChangeEvent, FormEvent, ReactNode } from "react"
-import { useMemo, useRef, useState, useTransition } from "react"
+import { useMemo, useRef, useState, useTransition, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
@@ -65,6 +65,18 @@ function OrderFormInner({
   const router = useRouter()
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  // Use a stable key for local storage based on the plan
+  const storageKey = `pending_reference_${plan.id}`
+  // Initialize reference from local storage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem(storageKey)
+      if (saved) {
+        setPaymentReference(saved)
+      }
+    }
+  }, [storageKey])
   const [isSubmitting, startTransition] = useTransition()
   const [formValues, setFormValues] = useState<FormFields>({
     full_name: defaultValues?.full_name ?? "",
@@ -127,7 +139,14 @@ function OrderFormInner({
     }
 
     setFieldErrors({})
-    setPaymentReference((current) => current ?? generateReferenceCode())
+    setPaymentReference((current) => {
+      if (current) return current
+      const newlyGenerated = generateReferenceCode()
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(storageKey, newlyGenerated)
+      }
+      return newlyGenerated
+    })
     setPaymentStepOpen(true)
   }
 
@@ -211,6 +230,9 @@ function OrderFormInner({
 
       setShowSuccessState(true)
       setReceiptFile(null)
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem(storageKey)
+      }
       toast({
         tone: "success",
         title: "Order submitted",
@@ -706,7 +728,7 @@ function SummaryRow({
   return (
     <div className="flex items-start justify-between gap-3 rounded-2xl border border-border/60 bg-muted/15 px-4 py-3">
       <span className="text-muted-foreground">{label}</span>
-      <span className={cn("max-w-[65%] text-right font-medium text-foreground", mono && "font-mono text-xs sm:text-sm")}>
+      <span className={cn("max-w-[65%] text-right font-medium text-foreground break-all", mono && "font-mono text-xs sm:text-sm")}>
         {value}
       </span>
     </div>

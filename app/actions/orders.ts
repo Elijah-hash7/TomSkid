@@ -77,7 +77,7 @@ export async function submitOrder(formData: FormData): Promise<SubmitOrderResult
     .upload(receiptPath, receipt, {
       cacheControl: "3600",
       contentType: receipt.type || undefined,
-      upsert: true,
+      upsert: false,
     })
 
   if (uploadError) {
