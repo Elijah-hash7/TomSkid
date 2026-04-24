@@ -241,7 +241,7 @@ function OrderFormInner({
       window.setTimeout(() => {
         setPaymentStepOpen(false)
         setShowSuccessState(false)
-        router.push(`/orders/${result.orderId}`)
+        router.push("/plans")
       }, 1500)
     })
   }

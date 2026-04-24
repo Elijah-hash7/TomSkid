@@ -104,7 +104,7 @@ export async function uploadDeliveryProof(orderId: string, formData: FormData) {
       contentType: file.type || undefined,
       upsert: true,
     })
-  if (upError) throw new Error(upError.message)
+  if (upError) throw new Error("Failed to upload the file. Please try again.")
   const now = new Date()
   let expiryFields: { delivered_at?: string; expires_at?: string } = {}
   const { data: orderData2 } = await supabase
@@ -137,7 +137,7 @@ export async function uploadDeliveryProof(orderId: string, formData: FormData) {
       ...expiryFields,
     })
     .eq("id", orderId)
-  if (dbError) throw new Error(dbError.message)
+  if (dbError) throw new Error("Proof uploaded but order status could not be updated. Please refresh and try again.")
   revalidatePath("/admin/orders")
   revalidatePath(`/admin/orders/${orderId}`)
   revalidatePath("/orders")
