@@ -9,6 +9,8 @@ import {
 } from "@/lib/validation/order"
 import { STORAGE_BUCKETS } from "@/lib/storage"
 import { getServerUser } from "@/lib/supabase/auth"
+import { buildNewOrderEmail, sendEmail } from "@/lib/email"
+import { formatMoney } from "@/lib/format"
 
 type OrderFieldName = keyof Omit<OrderFormValues, "plan_id">
 type OrderFieldErrors = Partial<Record<OrderFieldName, string>>
@@ -34,6 +36,7 @@ export async function submitOrder(formData: FormData): Promise<SubmitOrderResult
     phone_model: String(formData.get("phone_model") ?? "").trim(),
     zip_code: String(formData.get("zip_code") ?? "").trim(),
     imei: String(formData.get("imei") ?? "").trim(),
+    eid: String(formData.get("eid") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
   })
   if (!parsed.success) {
@@ -96,6 +99,7 @@ export async function submitOrder(formData: FormData): Promise<SubmitOrderResult
       phone_model: parsed.data.phone_model,
       zip_code: parsed.data.zip_code,
       imei: parsed.data.imei,
+      eid: parsed.data.eid,
       email: parsed.data.email,
       payment_reference: paymentReference.data,
       payment_receipt_path: receiptPath,
@@ -106,6 +110,31 @@ export async function submitOrder(formData: FormData): Promise<SubmitOrderResult
   if (insertError || !order) {
     await supabase.storage.from(STORAGE_BUCKETS.payment).remove([receiptPath])
     return { ok: false, error: insertError?.message ?? "Could not create order." }
+  }
+
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL ?? "tomiwatomiwa966@gmail.com"
+  const { data: planRow } = await supabase
+    .from("plans")
+    .select("name, price_cents, currency, carrier:carriers(name)")
+    .eq("id", parsed.data.plan_id)
+    .single<{ name: string; price_cents: number; currency: string; carrier: { name: string } | null }>()
+
+  if (planRow) {
+    const { subject, html } = buildNewOrderEmail({
+      orderId: order.id,
+      customerName: parsed.data.full_name,
+      customerEmail: parsed.data.email,
+      planName: planRow.name,
+      carrierName: planRow.carrier?.name ?? "—",
+      amount: formatMoney(planRow.price_cents, planRow.currency),
+      paymentReference: paymentReference.data,
+      imei: parsed.data.imei,
+      eid: parsed.data.eid,
+      phoneModel: parsed.data.phone_model,
+      state: parsed.data.state,
+      zipCode: parsed.data.zip_code,
+    })
+    void sendEmail({ to: adminEmail, subject, html })
   }
 
   revalidatePath("/orders")

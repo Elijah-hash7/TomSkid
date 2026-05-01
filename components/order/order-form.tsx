@@ -84,6 +84,7 @@ function OrderFormInner({
     phone_model: defaultValues?.phone_model ?? "",
     zip_code: defaultValues?.zip_code ?? "",
     imei: defaultValues?.imei ?? "",
+    eid: defaultValues?.eid ?? "",
     email: defaultValues?.email ?? defaultEmail ?? "",
   })
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormFields, string>>>({})
@@ -207,6 +208,7 @@ function OrderFormInner({
     formData.set("phone_model", formValues.phone_model)
     formData.set("zip_code", formValues.zip_code)
     formData.set("imei", formValues.imei)
+    formData.set("eid", formValues.eid)
     formData.set("email", formValues.email)
     formData.set("payment_reference", referenceCheck.data)
     formData.set("payment_receipt", receiptFile)
@@ -414,6 +416,27 @@ function OrderFormInner({
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       Find the IMEI in Settings or by dialing *#06#.
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="eid">EID</Label>
+                  <Input
+                    id="eid"
+                    name="eid"
+                    required
+                    inputMode="numeric"
+                    value={formValues.eid}
+                    onChange={(e) => updateField("eid", e.target.value)}
+                    placeholder="32-digit EID number"
+                    aria-invalid={fieldErrors.eid ? true : undefined}
+                    className="h-12 rounded-2xl border-border/80 bg-muted/20 px-4 font-mono text-sm"
+                  />
+                  {fieldErrors.eid ? (
+                    <FieldError>{fieldErrors.eid}</FieldError>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      On iPhone: Settings → General → About → EID. On Android: Settings → About phone → SIM status.
                     </p>
                   )}
                 </div>
@@ -662,6 +685,7 @@ function OrderFormInner({
                   <SummaryRow label="Reference" value={activeReference} mono />
                   <SummaryRow label="Email" value={formValues.email} />
                   <SummaryRow label="IMEI" value={formValues.imei} mono />
+                  <SummaryRow label="EID" value={formValues.eid} mono />
                 </CardContent>
               </Card>
             </div>

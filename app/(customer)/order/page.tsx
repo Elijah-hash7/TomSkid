@@ -33,6 +33,7 @@ export default async function OrderPage({
     state: string
     zip_code: string
     imei: string
+    eid: string
   } | undefined
 
   if (refillOrderId) {
@@ -45,6 +46,7 @@ export default async function OrderPage({
         state: prev.state,
         zip_code: prev.zip_code,
         imei: prev.imei,
+        eid: prev.eid ?? "",
       }
     }
   }

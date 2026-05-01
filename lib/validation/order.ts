@@ -7,6 +7,7 @@ export const orderFormSchema = z.object({
   phone_model: z.string().min(1, "Phone model is required"),
   zip_code: z.string().min(3, "ZIP code is required"),
   imei: z.string().min(14, "IMEI looks too short"),
+  eid: z.string().min(18, "EID looks too short").regex(/^\d+$/, "EID must contain only digits"),
   email: z.string().email("Valid email required"),
 })
 

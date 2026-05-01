@@ -71,6 +71,7 @@ export function AdminOrderPanel({
     { label: "Phone model", value: order.phone_model, icon: Smartphone },
     { label: "ZIP code", value: order.zip_code, icon: MapPin },
     { label: "IMEI", value: order.imei, icon: Smartphone },
+    { label: "EID", value: order.eid ?? "—", icon: Smartphone },
     { label: "Email", value: order.email, icon: Mail },
     {
       label: "Payment reference",

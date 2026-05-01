@@ -79,6 +79,7 @@ export default async function OrderDetailPage({
             <DetailRow label="State needed" value={order.state} />
             <DetailRow label="ZIP code" value={order.zip_code} />
             <DetailRow label="IMEI" value={order.imei} mono />
+            <DetailRow label="EID" value={order.eid ?? "—"} mono />
           </CardContent>
         </Card>
 
