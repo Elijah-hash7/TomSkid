@@ -38,7 +38,7 @@ export type OrderRow = {
   phone_model: string
   zip_code: string
   imei: string
-  eid: string
+  eid: string | null
   email: string
   payment_reference: string | null
   payment_receipt_path: string | null
