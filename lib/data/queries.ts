@@ -174,7 +174,7 @@ export async function getOrdersForUser(
     console.error("[getOrdersForUser]", error.message)
     return []
   }
-  return (data ?? []) as OrderWithPlan[]
+  return (data ?? []) as unknown as OrderWithPlan[]
 }
 
 export async function getOrderForUser(
@@ -200,7 +200,7 @@ export async function getOrderForUser(
     console.error("[getOrderForUser]", error.message)
     return null
   }
-  return data as OrderWithPlan | null
+  return data as unknown as OrderWithPlan | null
 }
 
 /** Admin */
@@ -229,7 +229,7 @@ export async function getAllOrders(): Promise<OrderWithPlan[]> {
     }
     return []
   }
-  return (data ?? []) as OrderWithPlan[]
+  return (data ?? []) as unknown as OrderWithPlan[]
 }
 
 export async function getOrderByIdAdmin(
@@ -259,7 +259,7 @@ export async function getOrderByIdAdmin(
     }
     return null
   }
-  return data as OrderWithPlan | null
+  return data as unknown as OrderWithPlan | null
 }
 
 export async function getPlansAdmin(): Promise<PlanWithCarrier[]> {

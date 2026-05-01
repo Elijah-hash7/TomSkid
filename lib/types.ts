@@ -119,6 +119,7 @@ export type Database = {
           state: string
           zip_code: string
           imei: string
+          eid: string | null
           payment_reference: string | null
           payment_receipt_path: string | null
           imei_screenshot_path: string | null
@@ -140,6 +141,7 @@ export type Database = {
           state: string
           zip_code: string
           imei: string
+          eid?: string | null
           payment_reference?: string | null
           payment_receipt_path?: string | null
           imei_screenshot_path?: string | null
@@ -150,6 +152,7 @@ export type Database = {
         }
         Update: {
           status?: OrderStatus
+          eid?: string | null
           payment_reference?: string | null
           payment_receipt_path?: string | null
           imei_screenshot_path?: string | null
