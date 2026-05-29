@@ -44,11 +44,12 @@ export function AdminOrderPanel({
 
   function onProofSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const fd = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const fd = new FormData(form)
     startTransition(async () => {
       try {
         await uploadDeliveryProof(order.id, fd)
-        e.currentTarget.reset()
+        form.reset()
         toast({
           tone: "success",
           title: "Proof uploaded",
