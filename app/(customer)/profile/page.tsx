@@ -71,7 +71,7 @@ export default async function ProfilePage() {
               subtitle="Quick answers before you contact support"
             />
             <ProfileLink
-              href="https://wa.me/2349132560731"
+              href="https://wa.me/2348081824760"
               icon={<LifeBuoy className="size-5 text-emerald-700/80" />}
               title="WhatsApp support"
               subtitle="Chat with the team on WhatsApp"

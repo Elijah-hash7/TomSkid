@@ -89,7 +89,7 @@ export function DesktopSidebar() {
         {/* Bottom: support */}
         <div className="border-t border-border/50 pt-4 px-1 space-y-0.5">
           <a
-            href="https://wa.me/2349132560731"
+            href="https://wa.me/2348081824760"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium text-foreground/40 transition-all hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-400"

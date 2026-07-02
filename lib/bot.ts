@@ -35,7 +35,7 @@ export function getBotResponse(message: string): string {
   }
 
   if (msg.includes("contact") || msg.includes("support") || msg.includes("help")) {
-    return "You can contact us via WhatsApp on +2349132560731";
+    return "You can contact us via WhatsApp on 08081824760";
   }
 
   if (msg.includes("question")) {
